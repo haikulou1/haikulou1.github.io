@@ -16,7 +16,7 @@
 <meta property="og:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png">
-<meta property="og:updated_time" content="2019-09-19T11:27:21.551Z">
+<meta property="og:updated_time" content="2019-09-19T12:43:50.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构之中缀表达式转后缀表达式">
 <meta name="twitter:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
@@ -199,6 +199,107 @@
 <p>8.依次弹出s2中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式.</p>
 <h2 id="举列说明"><a href="#举列说明" class="headerlink" title="举列说明"></a>举列说明</h2><p>中缀表达式为：1+((2+3)*4)-5</p>
 <p><img src="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png" alt="转换过程" title="转换过程"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>&lt; </p>
+<pre><code>public class Mid2End {
+
+private static int ADD = 1;
+private static int SUB = 1;
+private static int MUL = 2;
+private static int DIV = 2;
+
+public static void main(String[] args) {
+    Scanner scanner=new Scanner(System.in);
+    while (scanner.hasNext()) {
+        String str = scanner.nextLine();
+        List&lt;String &gt;list=min2end(strtolist(str));
+        for(String s:list){
+            System.out.print(s+&quot; &quot;);
+        }
+    }
+}
+
+    //1+((2+3)*4)-5   123+4*5-
+public static List&lt;String&gt; min2end(List&lt;String&gt; ls){
+    Stack&lt;String&gt; s1=new Stack&lt;&gt;();
+    List&lt;String&gt;s2=new ArrayList&lt;&gt;();
+
+    for(String s:ls){
+        if(s.matches(&quot;\\d+&quot;)) {
+            s2.add(s);
+        }else if(s.equals(&quot;(&quot;)){
+            s1.push(s);
+        }else if(s.equals(&quot;)&quot;)){
+            //如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃
+            while (!s1.peek().equals(&quot;(&quot;)){
+                s2.add(s1.pop());
+            }
+            s1.pop();//!!! 将 ( 弹出 s1栈， 消除小括号
+        }else {
+            //当s的优先级小于等于s1栈顶运算符, 将s1栈顶的运算符弹出并加入到s2中，再次转到(4.1)与s1中新的栈顶运算符相比较
+            while(s1.size()!=0&amp;&amp;getValue(s)&lt;=getValue(s1.peek())){
+                s2.add(s1.pop());
+            }
+            s1.push(s);
+        }
+    }
+
+    //将s1中剩余的运算符依次弹出并加入s2
+    while(s1.size() != 0) {
+        s2.add(s1.pop());
+    }
+    return s2;
+}
+
+
+/**
+ * 把数字和符号拆分出来
+ * @param s
+ * @return
+ */
+public  static List&lt;String&gt; strtolist(String s){
+    List&lt;String&gt; ls=new ArrayList&lt;&gt;();
+    int i=0;
+    String str;
+    char c;
+    do {
+        if((c=s.charAt(i))&lt;48||(c=s.charAt(i))&gt;57){
+            ls.add(c+&quot;&quot;);
+            i++;
+        }else {
+            str=&quot;&quot;;
+            while (i &lt; s.length() &amp;&amp;(c=s.charAt(i))&gt;=48&amp;&amp;(c=s.charAt(i))&lt;=57){
+                str+=c;
+                i++;
+            }
+            ls.add(str);
+        }
+    }while (i&lt;s.length());
+    return ls;
+}
+
+
+
+//写一个方法，返回对应的优先级数字
+public static int getValue(String operation) {
+    int result = 0;
+    switch (operation) {
+        case &quot;+&quot;:
+            result = ADD;
+            break;
+        case &quot;-&quot;:
+            result = SUB;
+            break;
+        case &quot;*&quot;:
+            result = MUL;
+            break;
+        case &quot;/&quot;:
+            result = DIV;
+            break;
+
+    }
+    return result;
+}}</code></pre><blockquote>
+</blockquote>
 
       
 
@@ -295,6 +396,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/19/中缀表达式转后缀表达式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构之中缀表达式转后缀表达式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">

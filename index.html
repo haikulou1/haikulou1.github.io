@@ -195,6 +195,107 @@
 <p>8.依次弹出s2中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式.</p>
 <h2 id="举列说明"><a href="#举列说明" class="headerlink" title="举列说明"></a>举列说明</h2><p>中缀表达式为：1+((2+3)*4)-5</p>
 <p><img src="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png" alt="转换过程" title="转换过程"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>&lt; </p>
+<pre><code>public class Mid2End {
+
+private static int ADD = 1;
+private static int SUB = 1;
+private static int MUL = 2;
+private static int DIV = 2;
+
+public static void main(String[] args) {
+    Scanner scanner=new Scanner(System.in);
+    while (scanner.hasNext()) {
+        String str = scanner.nextLine();
+        List&lt;String &gt;list=min2end(strtolist(str));
+        for(String s:list){
+            System.out.print(s+&quot; &quot;);
+        }
+    }
+}
+
+    //1+((2+3)*4)-5   123+4*5-
+public static List&lt;String&gt; min2end(List&lt;String&gt; ls){
+    Stack&lt;String&gt; s1=new Stack&lt;&gt;();
+    List&lt;String&gt;s2=new ArrayList&lt;&gt;();
+
+    for(String s:ls){
+        if(s.matches(&quot;\\d+&quot;)) {
+            s2.add(s);
+        }else if(s.equals(&quot;(&quot;)){
+            s1.push(s);
+        }else if(s.equals(&quot;)&quot;)){
+            //如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃
+            while (!s1.peek().equals(&quot;(&quot;)){
+                s2.add(s1.pop());
+            }
+            s1.pop();//!!! 将 ( 弹出 s1栈， 消除小括号
+        }else {
+            //当s的优先级小于等于s1栈顶运算符, 将s1栈顶的运算符弹出并加入到s2中，再次转到(4.1)与s1中新的栈顶运算符相比较
+            while(s1.size()!=0&amp;&amp;getValue(s)&lt;=getValue(s1.peek())){
+                s2.add(s1.pop());
+            }
+            s1.push(s);
+        }
+    }
+
+    //将s1中剩余的运算符依次弹出并加入s2
+    while(s1.size() != 0) {
+        s2.add(s1.pop());
+    }
+    return s2;
+}
+
+
+/**
+ * 把数字和符号拆分出来
+ * @param s
+ * @return
+ */
+public  static List&lt;String&gt; strtolist(String s){
+    List&lt;String&gt; ls=new ArrayList&lt;&gt;();
+    int i=0;
+    String str;
+    char c;
+    do {
+        if((c=s.charAt(i))&lt;48||(c=s.charAt(i))&gt;57){
+            ls.add(c+&quot;&quot;);
+            i++;
+        }else {
+            str=&quot;&quot;;
+            while (i &lt; s.length() &amp;&amp;(c=s.charAt(i))&gt;=48&amp;&amp;(c=s.charAt(i))&lt;=57){
+                str+=c;
+                i++;
+            }
+            ls.add(str);
+        }
+    }while (i&lt;s.length());
+    return ls;
+}
+
+
+
+//写一个方法，返回对应的优先级数字
+public static int getValue(String operation) {
+    int result = 0;
+    switch (operation) {
+        case &quot;+&quot;:
+            result = ADD;
+            break;
+        case &quot;-&quot;:
+            result = SUB;
+            break;
+        case &quot;*&quot;:
+            result = MUL;
+            break;
+        case &quot;/&quot;:
+            result = DIV;
+            break;
+
+    }
+    return result;
+}}</code></pre><blockquote>
+</blockquote>
 
       
 
@@ -208,6 +309,196 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/09/19/我的第一个博客/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-中缀表达式转后缀表达式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/19/中缀表达式转后缀表达式/">数据结构之中缀表达式转后缀表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/19/中缀表达式转后缀表达式/" class="archive-article-date">
+  	<time datetime="2019-09-19T07:52:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="中缀表达式"><a href="#中缀表达式" class="headerlink" title="中缀表达式"></a>中缀表达式</h2><ul>
+<li>是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.</li>
+</ul>
+<h2 id="后缀表达式"><a href="#后缀表达式" class="headerlink" title="后缀表达式"></a>后缀表达式</h2><ul>
+<li>后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.</li>
+</ul>
+<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>1.初始化两个栈：运算符栈s1和储存中间结果的栈s2；</p>
+<p>2.从左至右扫描中缀表达式；</p>
+<p>3.遇到操作数时，将其压s2；</p>
+<p>4.遇到运算符时，比较其与s1栈顶运算符的优先级：</p>
+<ul>
+<li>(1)如果s1为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈；</li>
+<li>(2)否则，若优先级比栈顶运算符的高，也将运算符压入s1；</li>
+<li>(3)否则，将s1栈顶的运算符弹出并压入到s2中，再次转到(4.1)与s1中新的栈顶运算符相比较；</li>
+</ul>
+<p>5.遇到括号时：</p>
+<ul>
+<li><p>(1) 如果是左括号“(”，则直接压入s1.</p>
+</li>
+<li><p>(2) 如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃.</p>
+</li>
+</ul>
+<p>6.重复步骤2至5，直到表达式的最右边.</p>
+<p>7.将s1中剩余的运算符依次弹出并压入s2.</p>
+<p>8.依次弹出s2中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式.</p>
+<h2 id="举列说明"><a href="#举列说明" class="headerlink" title="举列说明"></a>举列说明</h2><p>中缀表达式为：1+((2+3)*4)-5</p>
+<p><img src="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png" alt="转换过程" title="转换过程"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>&lt; </p>
+<pre><code>public class Mid2End {
+
+private static int ADD = 1;
+private static int SUB = 1;
+private static int MUL = 2;
+private static int DIV = 2;
+
+public static void main(String[] args) {
+    Scanner scanner=new Scanner(System.in);
+    while (scanner.hasNext()) {
+        String str = scanner.nextLine();
+        List&lt;String &gt;list=min2end(strtolist(str));
+        for(String s:list){
+            System.out.print(s+&quot; &quot;);
+        }
+    }
+}
+
+    //1+((2+3)*4)-5   123+4*5-
+public static List&lt;String&gt; min2end(List&lt;String&gt; ls){
+    Stack&lt;String&gt; s1=new Stack&lt;&gt;();
+    List&lt;String&gt;s2=new ArrayList&lt;&gt;();
+
+    for(String s:ls){
+        if(s.matches(&quot;\\d+&quot;)) {
+            s2.add(s);
+        }else if(s.equals(&quot;(&quot;)){
+            s1.push(s);
+        }else if(s.equals(&quot;)&quot;)){
+            //如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃
+            while (!s1.peek().equals(&quot;(&quot;)){
+                s2.add(s1.pop());
+            }
+            s1.pop();//!!! 将 ( 弹出 s1栈， 消除小括号
+        }else {
+            //当s的优先级小于等于s1栈顶运算符, 将s1栈顶的运算符弹出并加入到s2中，再次转到(4.1)与s1中新的栈顶运算符相比较
+            while(s1.size()!=0&amp;&amp;getValue(s)&lt;=getValue(s1.peek())){
+                s2.add(s1.pop());
+            }
+            s1.push(s);
+        }
+    }
+
+    //将s1中剩余的运算符依次弹出并加入s2
+    while(s1.size() != 0) {
+        s2.add(s1.pop());
+    }
+    return s2;
+}
+
+
+/**
+ * 把数字和符号拆分出来
+ * @param s
+ * @return
+ */
+public  static List&lt;String&gt; strtolist(String s){
+    List&lt;String&gt; ls=new ArrayList&lt;&gt;();
+    int i=0;
+    String str;
+    char c;
+    do {
+        if((c=s.charAt(i))&lt;48||(c=s.charAt(i))&gt;57){
+            ls.add(c+&quot;&quot;);
+            i++;
+        }else {
+            str=&quot;&quot;;
+            while (i &lt; s.length() &amp;&amp;(c=s.charAt(i))&gt;=48&amp;&amp;(c=s.charAt(i))&lt;=57){
+                str+=c;
+                i++;
+            }
+            ls.add(str);
+        }
+    }while (i&lt;s.length());
+    return ls;
+}
+
+
+
+//写一个方法，返回对应的优先级数字
+public static int getValue(String operation) {
+    int result = 0;
+    switch (operation) {
+        case &quot;+&quot;:
+            result = ADD;
+            break;
+        case &quot;-&quot;:
+            result = SUB;
+            break;
+        case &quot;*&quot;:
+            result = MUL;
+            break;
+        case &quot;/&quot;:
+            result = DIV;
+            break;
+
+    }
+    return result;
+}}</code></pre><blockquote>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/19/中缀表达式转后缀表达式/">展开全文 >></a>
         </p>
       
 
