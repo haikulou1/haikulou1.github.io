@@ -6,24 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://haikulou1.github.io">
-  <title>Hello World | java</title>
+  <title>数据结构之中缀表达式转后缀表达式 | java</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://haikulou1.github.io/2019/09/11/hello-world/index.html">
+<meta property="og:title" content="数据结构之中缀表达式转后缀表达式">
+<meta property="og:url" content="https://haikulou1.github.io/2019/09/19/我的第一个博客/index.html">
 <meta property="og:site_name" content="java">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-11T07:44:37.517Z">
+<meta property="og:image" content="c:%5Cwy%5Cblogs%5Cimages%5C1.png">
+<meta property="og:updated_time" content="2019-09-19T11:14:33.686Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="数据结构之中缀表达式转后缀表达式">
+<meta name="twitter:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
+<meta name="twitter:image" content="c:%5Cwy%5Cblogs%5Cimages%5C1.png">
   
     <link rel="alternative" href="/atom.xml" title="java" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/assets/icon.JPG">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -47,7 +49,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/assets/icon.JPG" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">胡歌的小迷弟</a></h1>
@@ -81,13 +83,11 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="qq" target="_blank" href="/assets/qq.JPG" title="qq"><i class="icon-qq"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weixin" target="_blank" href="/assets/wechat.JPG" title="weixin"><i class="icon-weixin"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="mail" target="_blank" href="mailto:920937242@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -105,7 +105,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/assets/icon.JPG" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">胡歌的小迷弟</h1>
@@ -122,13 +122,11 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="qq" target="_blank" href="/assets/qq.JPG" title="qq"><i class="icon-qq"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weixin" target="_blank" href="/assets/wechat.JPG" title="weixin"><i class="icon-weixin"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="mail" target="_blank" href="mailto:920937242@qq.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
@@ -154,39 +152,53 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-我的第一个博客" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      数据结构之中缀表达式转后缀表达式
     </h1>
   
 
         
-        <a href="/2019/09/11/hello-world/" class="archive-article-date">
-  	<time datetime="2019-09-11T07:44:37.517Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
+        <a href="/2019/09/19/我的第一个博客/" class="archive-article-date">
+  	<time datetime="2019-09-19T07:52:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h2 id="中缀表达式"><a href="#中缀表达式" class="headerlink" title="中缀表达式"></a>中缀表达式</h2><ul>
+<li>是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.</li>
+</ul>
+<h2 id="后缀表达式"><a href="#后缀表达式" class="headerlink" title="后缀表达式"></a>后缀表达式</h2><ul>
+<li>后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.</li>
+</ul>
+<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>1.初始化两个栈：运算符栈s1和储存中间结果的栈s2；</p>
+<p>2.从左至右扫描中缀表达式；</p>
+<p>3.遇到操作数时，将其压s2；</p>
+<p>4.遇到运算符时，比较其与s1栈顶运算符的优先级：</p>
+<ul>
+<li>(1)如果s1为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈；</li>
+<li>(2)否则，若优先级比栈顶运算符的高，也将运算符压入s1；</li>
+<li>(3)否则，将s1栈顶的运算符弹出并压入到s2中，再次转到(4.1)与s1中新的栈顶运算符相比较；</li>
+</ul>
+<p>5.遇到括号时：</p>
+<ul>
+<li><p>(1) 如果是左括号“(”，则直接压入s1.</p>
+</li>
+<li><p>(2) 如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃.</p>
+</li>
+</ul>
+<p>6.重复步骤2至5，直到表达式的最右边.</p>
+<p>7.将s1中剩余的运算符依次弹出并压入s2.</p>
+<p>8.依次弹出s2中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式.</p>
+<h2 id="举列说明"><a href="#举列说明" class="headerlink" title="举列说明"></a>举列说明</h2><p>中缀表达式为：1+((2+3)*4)-5</p>
+<p><img src="C:%5Cwy%5Cblogs%5Cimages%5C1.png" alt="转换过程" title="转换过程"></p>
 
       
 
@@ -203,6 +215,11 @@
                   <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechatpay.JPG">
+                      <span class="reward-type">微信</span>
+                    </div>
                     
                   </div>
                 </span>
@@ -266,7 +283,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://haikulou1.github.io/2019/09/11/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://haikulou1.github.io/2019/09/19/我的第一个博客/" alt="微信分享二维码">
     </div>
 </div>
 
