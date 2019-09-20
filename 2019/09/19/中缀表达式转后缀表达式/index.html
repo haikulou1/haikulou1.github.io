@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://haikulou1.github.io">
   <title>数据结构之中缀表达式转后缀表达式 | java</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
+  <meta name="description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构之中缀表达式转后缀表达式">
 <meta property="og:url" content="https://haikulou1.github.io/2019/09/19/中缀表达式转后缀表达式/index.html">
 <meta property="og:site_name" content="java">
-<meta property="og:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
+<meta property="og:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png">
-<meta property="og:updated_time" content="2019-09-19T12:43:50.253Z">
+<meta property="og:updated_time" content="2019-09-20T07:32:43.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构之中缀表达式转后缀表达式">
-<meta name="twitter:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.  算法思路1.初始化两个栈：运算符栈s1和储存中间结果的栈s2； 2.从左至右扫描中缀表达式； 3.遇到操作数时，将其压s">
+<meta name="twitter:description" content="中缀表达式 是一个通用的算术或逻辑公式表示方法， 操作符是以中缀形式处于操作数的中间（例:3 + 4），中缀表达式是人们常用的算术表示方法.  后缀表达式 后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.">
 <meta name="twitter:image" content="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png">
   
     <link rel="alternative" href="/atom.xml" title="java" type="application/atom+xml">
@@ -62,6 +62,8 @@
 				<li><a href="/">主页</a></li>
 	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/archives/index.html">归档</a></li>
 	        
 			</ul>
 		</nav>
@@ -117,6 +119,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -132,12 +136,14 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/archives/index.html">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -163,6 +169,17 @@
     </h1>
   
 
+		
+		
+  <br/>
+  <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+  <span class="icon-sort"></span>
+  <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+            阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+  </span>
+  </a>
+  
+		
         
         <a href="/2019/09/19/中缀表达式转后缀表达式/" class="archive-article-date">
   	<time datetime="2019-09-19T07:52:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-19</time>
@@ -178,6 +195,9 @@
 <h2 id="后缀表达式"><a href="#后缀表达式" class="headerlink" title="后缀表达式"></a>后缀表达式</h2><ul>
 <li>后缀表达式也称逆波兰表达式，运算符位于操作数之后，(3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 –.</li>
 </ul>
+<a id="more"></a>
+
+
 <h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>1.初始化两个栈：运算符栈s1和储存中间结果的栈s2；</p>
 <p>2.从左至右扫描中缀表达式；</p>
 <p>3.遇到操作数时，将其压s2；</p>
@@ -199,8 +219,7 @@
 <p>8.依次弹出s2中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式.</p>
 <h2 id="举列说明"><a href="#举列说明" class="headerlink" title="举列说明"></a>举列说明</h2><p>中缀表达式为：1+((2+3)*4)-5</p>
 <p><img src="https://github.com/haikulou1/haikulou1.github.io/tree/master/assets/1.png" alt="转换过程" title="转换过程"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>&lt; </p>
-<pre><code>public class Mid2End {
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><pre><code>public class Mid2End {
 
 private static int ADD = 1;
 private static int SUB = 1;
@@ -396,20 +415,6 @@ public static int getValue(String operation) {
 </article>
 
   
-<nav id="article-nav">
-  
-    <a href="/2019/09/19/我的第一个博客/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          数据结构之中缀表达式转后缀表达式
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -423,6 +428,19 @@ public static int getValue(String operation) {
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#中缀表达式"><span class="toc-number">1.</span> <span class="toc-text">中缀表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后缀表达式"><span class="toc-number">2.</span> <span class="toc-text">后缀表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法思路"><span class="toc-number">3.</span> <span class="toc-text">算法思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举列说明"><span class="toc-number">4.</span> <span class="toc-text">举列说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现"><span class="toc-number">5.</span> <span class="toc-text">代码实现</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -445,6 +463,10 @@ public static int getValue(String operation) {
       </div>
       <footer id="footer">
   <div class="outer">
+  
+
+<span id="busuanzi_container_site_pv">  本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span id="busuanzi_container_site_uv">  本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2019 胡歌的小迷弟
