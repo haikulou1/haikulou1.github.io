@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="骸の博客" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="java 8种基本类型   类型 在内存中占的字节数 默认值    boolean 1 false   byte 1 0   short 2 0   int 4 0   long 8 0   char 1 \u0000   float 4 0.0f   double 8 0.0d">
+<meta name="keywords" content="java,java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础(基本数据类型)">
+<meta property="og:url" content="https://haikulou1.github.io/2019/09/21/java基础/index.html">
+<meta property="og:site_name" content="骸の博客">
+<meta property="og:description" content="java 8种基本类型   类型 在内存中占的字节数 默认值    boolean 1 false   byte 1 0   short 2 0   int 4 0   long 8 0   char 1 \u0000   float 4 0.0f   double 8 0.0d">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-21T13:16:51.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础(基本数据类型)">
+<meta name="twitter:description" content="java 8种基本类型   类型 在内存中占的字节数 默认值    boolean 1 false   byte 1 0   short 2 0   int 4 0   long 8 0   char 1 \u0000   float 4 0.0f   double 8 0.0d">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/09/21/java基础/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>java基础(基本数据类型) | 骸の博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">骸の博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一丢丢</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">6</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">6</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">6</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/09/21/java基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡歌的小迷弟">
+      <meta itemprop="description" content="为了梦想而努力">
+      <meta itemprop="image" content="/images/icon.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="骸の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">java基础(基本数据类型)
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-21 20:33:14 / 修改时间：21:16:51" itemprop="dateCreated datePublished" datetime="2019-09-21T20:33:14+08:00">2019-09-21</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/09/21/java基础/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/21/java基础/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+         
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <!-- <span title="本文字数">6.7k</span> -->
+			  <span title="本文字数">
+                  字
+                </span>
+              
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="java-8种基本类型"><a href="#java-8种基本类型" class="headerlink" title="java 8种基本类型"></a>java 8种基本类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th align="center">在内存中占的字节数</th>
+<th align="right">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td align="center">1</td>
+<td align="right">false</td>
+</tr>
+<tr>
+<td>byte</td>
+<td align="center">1</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>short</td>
+<td align="center">2</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>int</td>
+<td align="center">4</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>long</td>
+<td align="center">8</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>char</td>
+<td align="center">1</td>
+<td align="right">\u0000</td>
+</tr>
+<tr>
+<td>float</td>
+<td align="center">4</td>
+<td align="right">0.0f</td>
+</tr>
+<tr>
+<td>double</td>
+<td align="center">8</td>
+<td align="right">0.0d</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+
+<h2 id="装箱和拆箱"><a href="#装箱和拆箱" class="headerlink" title="装箱和拆箱"></a>装箱和拆箱</h2><ul>
+<li>自动装箱是Java 编译器在基本数据类型和对应的对象包装类型之间做的一个转化。比<br>如：把int 转化成Integer，double 转化成Double，等等。反之就是自动拆箱。</li>
+</ul>
+<p>原始类型: boolean，char，byte，short，int，long，float，double</p>
+<p>封装类型：Boolean，Character，Byte，Short，Integer，Long，Float，Double</p>
+<h2 id="Int-与Integer-区别"><a href="#Int-与Integer-区别" class="headerlink" title="Int 与Integer 区别"></a>Int 与Integer 区别</h2><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li><p>Integer是int的包装类，int则是java的一种基本数据类型。</p>
+</li>
+<li><p>Integer变量必须实例化后才能使用，而int变量不需要。</p>
+</li>
+<li><p>Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象；而int则是直接存储数据值。</p>
+</li>
+<li><p>Integer的默认值是null，int的默认值是0。</p>
+</li>
+</ul>
+<h3 id="疑难杂症"><a href="#疑难杂症" class="headerlink" title="疑难杂症"></a>疑难杂症</h3><p>1、由于Integer变量实际上是对一个Integer对象的引用，所以两个通过new生成的Integer变量永远是不相等的（因为new生成的是两个对象，其内存地址不同）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line">Integer j = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>2、Integer变量和int变量比较时，只要两个变量的值是向等的，则结果为true（因为包装类Integer和基本数据类型int比较时，java会自动拆包装为int，然后进行比较，实际上就变为两个int变量的比较）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">100</span>；</span><br><span class="line">System.out.print(i == j); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>3、非new生成的Integer变量和new Integer()生成的变量比较时，结果为false。（因为非new生成的Integer变量指向的是java常量池中的对象，而new Integer()生成的变量指向堆中新建的对象，两者在内存中的地址不同）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line">Integer j = <span class="number">100</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br><span class="line">```java</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、对于两个非<span class="keyword">new</span>生成的Integer对象，进行比较时，如果两个变量的值在区间-<span class="number">128</span>到<span class="number">127</span>之间，则比较结果为<span class="keyword">true</span>，如果两个变量的值不在此区间，则比较结果为<span class="keyword">false</span></span><br><span class="line">```java</span><br><span class="line">Integer i = <span class="number">100</span>;</span><br><span class="line">Integer j = <span class="number">100</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//true</span></span><br><span class="line">Integer i = <span class="number">128</span>;</span><br><span class="line">Integer j = <span class="number">128</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对于第4条的原因：<br>java在编译Integer i = 100 ;时，会翻译成为Integer i = Integer.valueOf(100)；，而java API中对Integer类型的valueOf的定义如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">    <span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)&#123;</span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>java对于-128到127之间的数，会进行缓存，Integer i = 127时，会将127进行缓存，下次再写Integer j = 127时，就会直接从缓存中取，就不会new了</p>
+<h2 id="字节字符区别"><a href="#字节字符区别" class="headerlink" title="字节字符区别"></a>字节字符区别</h2><p>字节是存储容量的基本单位，字符是数子，字母，汉子以及其他语言的各种符号。<br>1 字节=8 个二进制单位：一个一个字符由一个字节或多个字节的二进制单位组成。</p>
+<h2 id="java-基本类型与引用类型的区别"><a href="#java-基本类型与引用类型的区别" class="headerlink" title="java 基本类型与引用类型的区别"></a>java 基本类型与引用类型的区别</h2><p>基本类型保存原始值，引用类型保存的是引用值（引用值就是指对象在堆中所<br>处的位置/地址)</p>
+<p>详情:<a href="https://blog.csdn.net/qq_26737667/article/details/91398154" target="_blank" rel="noopener">https://blog.csdn.net/qq_26737667/article/details/91398154</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      
+
+      
+
+      
+        
+      
+      
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+      
+
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  
+</div>
+
+      <footer class="post-footer">
+        
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/java/" rel="tag"># java</a>
+            
+              <a href="/tags/java基础/" rel="tag"># java基础</a>
+            
+          </div>
+        
+
+        
+
+
+        
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/21/递归1/" rel="next" title="递归">
+                  <i class="fa fa-chevron-left"></i> 递归
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/21/java基础之基本特性/" rel="prev" title="java基础之基本特性">
+                  java基础之基本特性 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+
+
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-8种基本类型"><span class="nav-number">1.</span> <span class="nav-text">java 8种基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装箱和拆箱"><span class="nav-number">2.</span> <span class="nav-text">装箱和拆箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Int-与Integer-区别"><span class="nav-number">3.</span> <span class="nav-text">Int 与Integer 区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">3.1.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑难杂症"><span class="nav-number">3.2.</span> <span class="nav-text">疑难杂症</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节字符区别"><span class="nav-number">4.</span> <span class="nav-text">字节字符区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-基本类型与引用类型的区别"><span class="nav-number">5.</span> <span class="nav-text">java 基本类型与引用类型的区别</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/icon.JPG"
+      alt="胡歌的小迷弟">
+  <p class="site-author-name" itemprop="name">胡歌的小迷弟</p>
+  <div class="site-description" itemprop="description">为了梦想而努力</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/haikulou1" title="GitHub &rarr; https://github.com/haikulou1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://me.csdn.net/qq_26737667" title="CSDN &rarr; https://me.csdn.net/qq_26737667" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">骸</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">11k</span>
+</div>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '4sEVi9AyKjtIGLSLAU24CsfE-gzGzoHsz',
+    appKey: '73JqOIAswUTRm0qRYu9Eg1HD',
+    placeholder: '来呀，快活呀 ！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
