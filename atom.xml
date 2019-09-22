@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haikulou1.github.io/"/>
-  <updated>2019-09-22T12:38:25.011Z</updated>
+  <updated>2019-09-22T12:40:19.159Z</updated>
   <id>https://haikulou1.github.io/</id>
   
   <author>
@@ -21,18 +21,21 @@
     <link href="https://haikulou1.github.io/2019/09/22/java%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%9B%86%E5%90%88/"/>
     <id>https://haikulou1.github.io/2019/09/22/java基础之集合/</id>
     <published>2019-09-22T12:09:50.000Z</published>
-    <updated>2019-09-22T12:38:25.011Z</updated>
+    <updated>2019-09-22T12:40:19.159Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合类存在放java.util包中，主要有set，list，map。</p><ol><li><p>Collection：Collection是集合List、Set、Queue的最基本的接口。</p><ol start="2"><li><p>Iterator：迭代器，可以通过迭代器遍历集合中的数据 </p></li><li><p>Map：是映射表的基础接口</p></li></ol></li></ol><p>集合之间继承和实现关系:</p><p><img src="http://py4grz9th.bkt.clouddn.com/1569154457%281%29.jpg" alt="集合之间的关系" title="集合之间的关系"></p><p><img src="http://py4grz9th.bkt.clouddn.com/%5BKVJI%7DY%5D%60DO$%29AIPA7LEA9Q.png" alt="集合之间的关系" title="集合之间的关系"></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合类存在放java.util包中，主要有set，list，map。</p><ol><li><p>Collection：Collection是集合List、Set、Queue的最基本的接口。</p><ol start="2"><li><p>Iterator：迭代器，可以通过迭代器遍历集合中的数据 </p></li><li><p>Map：是映射表的基础接口</p></li></ol><a id="more"></a></li></ol><p>集合之间继承和实现关系:</p><p><img src="http://py4grz9th.bkt.clouddn.com/1569154457%281%29.jpg" alt="集合之间的关系" title="集合之间的关系"></p><p><img src="http://py4grz9th.bkt.clouddn.com/%5BKVJI%7DY%5D%60DO$%29AIPA7LEA9Q.png" alt="集合之间的关系" title="集合之间的关系"></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;集合&quot;&gt;&lt;a href=&quot;#集合&quot; class=&quot;headerlink&quot; title=&quot;集合&quot;&gt;&lt;/a&gt;集合&lt;/h2&gt;&lt;p&gt;集合类存在放java.util包中，主要有set，list，map。&lt;/p&gt;
+      &lt;h2 id=&quot;集合&quot;&gt;&lt;a href=&quot;#集合&quot; class=&quot;headerlink&quot; title=&quot;集合&quot;&gt;&lt;/a&gt;集合&lt;/h2&gt;&lt;p&gt;集合类存在放java.util包中，主要有set，list，map。&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Collection：Collecti
-      
+&lt;li&gt;&lt;p&gt;Collection：Collection是集合List、Set、Queue的最基本的接口。&lt;/p&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;&lt;p&gt;Iterator：迭代器，可以通过迭代器遍历集合中的数据 &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Map：是映射表的基础接口&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
     
     </summary>
     
