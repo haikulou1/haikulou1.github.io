@@ -56,28 +56,21 @@
   };
 </script>
 
-  <meta name="description" content="Set注重独一无二的性质,该体系集合用于存储无序(存入和取出的顺序不一定相同)元素，值不能重复。对象的相等性本质是对象hashCode值（java是依据对象的内存地址计算出的此序号）判断的，如果想要让两个不同的对象视为相等的，就必须覆盖Object的hashCode方法和equals方法。">
-<meta name="keywords" content="java,java基础,集合,HashMap">
+  <meta name="description" content="快速排序基本思想 快速排序（Quicksort）是对冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列">
+<meta name="keywords" content="数据结构,排序,快速排序">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java基础之集合之set之HashMap">
-<meta property="og:url" content="https://haikulou1.github.io/2019/09/23/java基础之集合之set/index.html">
+<meta property="og:title" content="数据结构排序之快速排序">
+<meta property="og:url" content="https://haikulou1.github.io/2019/10/08/数据结构排序之快速排序/index.html">
 <meta property="og:site_name" content="骸の博客">
-<meta property="og:description" content="Set注重独一无二的性质,该体系集合用于存储无序(存入和取出的顺序不一定相同)元素，值不能重复。对象的相等性本质是对象hashCode值（java是依据对象的内存地址计算出的此序号）判断的，如果想要让两个不同的对象视为相等的，就必须覆盖Object的hashCode方法和equals方法。">
+<meta property="og:description" content="快速排序基本思想 快速排序（Quicksort）是对冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569240059%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/6S%7DOWSCX404G0%5D%25NG85KGOX.png">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569378750%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569378607%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569378633%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569378656%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569380178%281%29.jpg">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569380149%281%29.jpg">
-<meta property="og:updated_time" content="2019-09-25T08:03:18.252Z">
+<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/W%609%5D8S%60C4QW%7D0Q4%5BTAIU%60OK.png">
+<meta property="og:updated_time" content="2019-10-08T13:36:07.159Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java基础之集合之set之HashMap">
-<meta name="twitter:description" content="Set注重独一无二的性质,该体系集合用于存储无序(存入和取出的顺序不一定相同)元素，值不能重复。对象的相等性本质是对象hashCode值（java是依据对象的内存地址计算出的此序号）判断的，如果想要让两个不同的对象视为相等的，就必须覆盖Object的hashCode方法和equals方法。">
-<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/1569240059%281%29.jpg">
-  <link rel="canonical" href="https://haikulou1.github.io/2019/09/23/java基础之集合之set/">
+<meta name="twitter:title" content="数据结构排序之快速排序">
+<meta name="twitter:description" content="快速排序基本思想 快速排序（Quicksort）是对冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列">
+<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/W%609%5D8S%60C4QW%7D0Q4%5BTAIU%60OK.png">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/10/08/数据结构排序之快速排序/">
 
 
 <script id="page-configurations">
@@ -91,7 +84,7 @@
   };
 </script>
 
-  <title>java基础之集合之set之HashMap | 骸の博客</title>
+  <title>数据结构排序之快速排序 | 骸の博客</title>
   
 
 
@@ -218,7 +211,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">13</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">15</span></a>
 
   </li>
       
@@ -240,7 +233,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">13</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
 
   </li>
       
@@ -262,7 +255,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">12</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">14</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -319,7 +312,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/09/23/java基础之集合之set/">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/10/08/数据结构排序之快速排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡歌的小迷弟">
@@ -331,7 +324,7 @@
       <meta itemprop="name" content="骸の博客">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">java基础之集合之set之HashMap
+        <h1 class="post-title" itemprop="name headline">数据结构排序之快速排序
 
           
         </h1>
@@ -347,19 +340,11 @@
                 
               
 
-              <time title="创建时间：2019-09-23 19:48:14" itemprop="dateCreated datePublished" datetime="2019-09-23T19:48:14+08:00">2019-09-23</time>
+              <time title="创建时间：2019-10-08 21:33:19 / 修改时间：21:36:07" itemprop="dateCreated datePublished" datetime="2019-10-08T21:33:19+08:00">2019-10-08</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-25 16:03:18" itemprop="dateModified" datetime="2019-09-25T16:03:18+08:00">2019-09-25</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -368,28 +353,21 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/" itemprop="url" rel="index"><span itemprop="name">排序</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/" itemprop="url" rel="index"><span itemprop="name">集合</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/HashMap/" itemprop="url" rel="index"><span itemprop="name">HashMap</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/快速排序/" itemprop="url" rel="index"><span itemprop="name">快速排序</span></a></span>
 
                 
                 
@@ -416,7 +394,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/09/23/java基础之集合之set/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/23/java基础之集合之set/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2019/10/08/数据结构排序之快速排序/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/08/数据结构排序之快速排序/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -432,7 +410,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <!-- <span title="本文字数">2.3k</span> -->
+                <!-- <span title="本文字数">7.7k</span> -->
 			  <span title="本文字数">
                   字
                 </span>
@@ -452,33 +430,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li><p>Set注重独一无二的性质,该体系集合用于存储无序(存入和取出的顺序不一定相同)元素，值不能重复。对象的相等性本质是对象hashCode值（java是依据对象的内存地址计算出的此序号）判断的，如果想要让两个不同的对象视为相等的，就必须覆盖Object的hashCode方法和equals方法。</p>
-<a id="more"></a>
+        <h2 id="快速排序基本思想"><a href="#快速排序基本思想" class="headerlink" title="快速排序基本思想"></a>快速排序基本思想</h2><ul>
+<li>快速排序（Quicksort）是对冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列<a id="more"></a>
 
 </li>
 </ul>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569240059%281%29.jpg" alt="集合之间的关系" title="集合之间的关系"></p>
-<h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><h3 id="HashMap的结构"><a href="#HashMap的结构" class="headerlink" title="HashMap的结构"></a>HashMap的结构</h3><h4 id="jdk1-7与1-8不同点"><a href="#jdk1-7与1-8不同点" class="headerlink" title="jdk1.7与1.8不同点"></a>jdk1.7与1.8不同点</h4><p><img src="http://py4grz9th.bkt.clouddn.com/6S%7DOWSCX404G0%5D%25NG85KGOX.png" alt="hashmap1.7" title="hashmap1.7"></p>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569378750%281%29.jpg" alt="hashmap1.8" title="hashmap1.8"></p>
-<p>（1）JDK1.7用的是头插法，而JDK1.8及之后使用的都是尾插法，那么他们为什么要这样做呢？因为JDK1.7是用单链表进行的纵向延伸，当采用头插法时会容易出现逆序且环形链表死循环问题。但是在JDK1.8之后是因为加入了红黑树使用尾插法，能够避免出现逆序且链表死循环的问题。</p>
-<p>（2）扩容后数据存储位置的计算方式也不一样：1. 在JDK1.7的时候是直接用hash值和需要扩容的二进制数进行&amp;（这里就是为什么扩容的时候为啥一定必须是2的多少次幂的原因所在，因为如果只有2的n次幂的情况时最后一位二进制数才一定是1，这样能最大程度减少hash碰撞）（hash值 &amp; length-1）</p>
-<p>（3）而在JDK1.8的时候，用扩容前的原始位置+扩容的大小值的计算方式，而不再是JDK1.7的那种异或的方法。但是这种方式就相当于只需要判断Hash值的新增参与运算的位是0还是1就直接迅速计算出了扩容后的储存方式。</p>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569378607%281%29.jpg" alt="hashmap1" title="hashmap1"></p>
-<p>扩容流程对比图:</p>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569378633%281%29.jpg" alt="hashmap2" title="hashmap2"></p>
-<ul>
-<li>JDK1.7的时候使用的是数组+ 单链表的数据结构。但是在JDK1.8及之后时，使用的是数组+链表+红黑树的数据结构（当链表的深度达到8的时候，也就是默认阈值，就会自动扩容把链表转成红黑树的数据结构来把时间复杂度从O（n）变成O（logN）提高了效率）</li>
-</ul>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569378656%281%29.jpg" alt="hashmap3" title="hashmap3"></p>
-<ul>
-<li>为什么 HashMap 中 String、Integer 这样的包装类适合作为 key 键<br><img src="http://py4grz9th.bkt.clouddn.com/1569380178%281%29.jpg" alt="hashmap4" title="hashmap4"></li>
-</ul>
-<ul>
-<li>为什么HashMap具备下述特点：键-值（key-value）都允许为空、线程不安全、不保证有序、存储位置随时间变化<br><img src="http://py4grz9th.bkt.clouddn.com/1569380149%281%29.jpg" alt="hashmap5" title="hashmap5"></li>
-</ul>
-<p>参考：<a href="https://blog.csdn.net/qq_36520235/article/details/82417949" target="_blank" rel="noopener">https://blog.csdn.net/qq_36520235/article/details/82417949</a></p>
-
+<p><img src="http://py4grz9th.bkt.clouddn.com/W%609%5D8S%60C4QW%7D0Q4%5BTAIU%60OK.png" alt="hashcode" title="hashcode"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by 胡歌的小迷弟 on 2019/10/8 20:48</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 快速排序 </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> arr[]=&#123;-<span class="number">9</span>,<span class="number">78</span>,<span class="number">0</span>,<span class="number">23</span>,-<span class="number">567</span>,<span class="number">70</span>&#125;;</span><br><span class="line">        sort(arr,<span class="number">0</span>,arr.length-<span class="number">1</span>);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l=left;</span><br><span class="line">        <span class="keyword">int</span> r=right;</span><br><span class="line">        <span class="keyword">int</span> pivot = arr[(left + right) / <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">int</span> temp = <span class="number">0</span>; <span class="comment">//临时变量，作为交换时使用</span></span><br><span class="line">        <span class="keyword">while</span>( l &lt; r) &#123;</span><br><span class="line">            <span class="comment">//在pivot的左边一直找,找到大于等于pivot值,才退出</span></span><br><span class="line">            <span class="keyword">while</span>( arr[l] &lt; pivot) &#123;</span><br><span class="line">                l += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//在pivot的右边一直找,找到小于等于pivot值,才退出</span></span><br><span class="line">            <span class="keyword">while</span>(arr[r] &gt; pivot) &#123;</span><br><span class="line">                r -= <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果l &gt;= r说明pivot 的左右两的值，已经按照左边全部是</span></span><br><span class="line">            <span class="comment">//小于等于pivot值，右边全部是大于等于pivot值</span></span><br><span class="line">            <span class="keyword">if</span>( l &gt;= r) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//交换</span></span><br><span class="line">            temp = arr[l];</span><br><span class="line">            arr[l] = arr[r];</span><br><span class="line">            arr[r] = temp;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果交换完后，发现这个arr[l] == pivot值 相等 r--， 前移</span></span><br><span class="line">            <span class="keyword">if</span>(arr[l] == pivot) &#123;</span><br><span class="line">                r -= <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果交换完后，发现这个arr[r] == pivot值 相等 l++， 后移</span></span><br><span class="line">            <span class="keyword">if</span>(arr[r] == pivot) &#123;</span><br><span class="line">                l += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果 l == r, 必须l++, r--, 否则为出现栈溢出</span></span><br><span class="line">        <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">            l += <span class="number">1</span>;</span><br><span class="line">            r -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//向左递归</span></span><br><span class="line">        <span class="keyword">if</span>(left &lt; r) &#123;</span><br><span class="line">            sort(arr, left, r);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//向右递归</span></span><br><span class="line">        <span class="keyword">if</span>(right &gt; l) &#123;</span><br><span class="line">            sort(arr, l, right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -524,13 +482,11 @@
           
           <div class="post-tags">
             
-              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
             
-              <a href="/tags/java基础/" rel="tag"># java基础</a>
+              <a href="/tags/排序/" rel="tag"># 排序</a>
             
-              <a href="/tags/集合/" rel="tag"># 集合</a>
-            
-              <a href="/tags/HashMap/" rel="tag"># HashMap</a>
+              <a href="/tags/快速排序/" rel="tag"># 快速排序</a>
             
           </div>
         
@@ -542,8 +498,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/22/java基础之集合之List/" rel="next" title="java基础之集合之List">
-                  <i class="fa fa-chevron-left"></i> java基础之集合之List
+                <a href="/2019/10/08/数据结构排序之希尔排序/" rel="next" title="数据结构排序之希尔排序">
+                  <i class="fa fa-chevron-left"></i> 数据结构排序之希尔排序
                 </a>
               
             </div>
@@ -551,10 +507,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/09/25/java基础之集合之set之HashSet/" rel="prev" title="java基础之集合之set之HashSet">
-                  java基础之集合之set之HashSet <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -609,7 +561,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">1.</span> <span class="nav-text">HashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap的结构"><span class="nav-number">1.1.</span> <span class="nav-text">HashMap的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jdk1-7与1-8不同点"><span class="nav-number">1.1.1.</span> <span class="nav-text">jdk1.7与1.8不同点</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序基本思想"><span class="nav-number">1.</span> <span class="nav-text">快速排序基本思想</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -627,7 +579,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -640,7 +592,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -653,7 +605,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -714,7 +666,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">18k</span>
+    <span title="站点总字数">22k</span>
 </div>
 
 <span id="busuanzi_container_site_uv">

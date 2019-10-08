@@ -56,21 +56,21 @@
   };
 </script>
 
-  <meta name="description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
-<meta name="keywords" content="java,java基础,集合,HashSet">
+  <meta name="description" content="算法思想 希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。">
+<meta name="keywords" content="数据结构,排序,希尔排序">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java基础之集合之set之HashSet">
-<meta property="og:url" content="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/index.html">
+<meta property="og:title" content="数据结构排序之希尔排序">
+<meta property="og:url" content="https://haikulou1.github.io/2019/10/08/数据结构排序之希尔排序/index.html">
 <meta property="og:site_name" content="骸の博客">
-<meta property="og:description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
+<meta property="og:description" content="算法思想 希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg">
-<meta property="og:updated_time" content="2019-09-25T03:00:25.141Z">
+<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/O%291%5DL_SNY~%257K~Z%289%5BX8Y5Y.png">
+<meta property="og:updated_time" content="2019-10-08T13:32:40.425Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java基础之集合之set之HashSet">
-<meta name="twitter:description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
-<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg">
-  <link rel="canonical" href="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/">
+<meta name="twitter:title" content="数据结构排序之希尔排序">
+<meta name="twitter:description" content="算法思想 希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。">
+<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/O%291%5DL_SNY~%257K~Z%289%5BX8Y5Y.png">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/10/08/数据结构排序之希尔排序/">
 
 
 <script id="page-configurations">
@@ -84,7 +84,7 @@
   };
 </script>
 
-  <title>java基础之集合之set之HashSet | 骸の博客</title>
+  <title>数据结构排序之希尔排序 | 骸の博客</title>
   
 
 
@@ -312,7 +312,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/10/08/数据结构排序之希尔排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡歌的小迷弟">
@@ -324,7 +324,7 @@
       <meta itemprop="name" content="骸の博客">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">java基础之集合之set之HashSet
+        <h1 class="post-title" itemprop="name headline">数据结构排序之希尔排序
 
           
         </h1>
@@ -340,7 +340,7 @@
                 
               
 
-              <time title="创建时间：2019-09-25 10:59:31 / 修改时间：11:00:25" itemprop="dateCreated datePublished" datetime="2019-09-25T10:59:31+08:00">2019-09-25</time>
+              <time title="创建时间：2019-10-08 21:26:02 / 修改时间：21:32:40" itemprop="dateCreated datePublished" datetime="2019-10-08T21:26:02+08:00">2019-10-08</time>
             </span>
           
             
@@ -353,28 +353,21 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/" itemprop="url" rel="index"><span itemprop="name">排序</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/" itemprop="url" rel="index"><span itemprop="name">集合</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/HashSet/" itemprop="url" rel="index"><span itemprop="name">HashSet</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/希尔排序/" itemprop="url" rel="index"><span itemprop="name">希尔排序</span></a></span>
 
                 
                 
@@ -401,7 +394,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/09/25/java基础之集合之set之HashSet/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/java基础之集合之set之HashSet/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2019/10/08/数据结构排序之希尔排序/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/08/数据结构排序之希尔排序/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -417,7 +410,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <!-- <span title="本文字数">613</span> -->
+                <!-- <span title="本文字数">4.7k</span> -->
 			  <span title="本文字数">
                   字
                 </span>
@@ -437,14 +430,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h2><ul>
-<li>哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false就不是同一个元素。 哈希值相同equals为false的元素是怎么存储呢,就是在同样的哈希值下顺延（可以认为哈希值相同的元素放在一个哈希桶中）。也就是哈希一样的存一列。左图表示hashCode值不相同的情况；右图表示hashCode值相同，但equals不相同的情况。</li>
+        <h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><ul>
+<li>希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</li>
 </ul>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg" alt="hashcode" title="hashcode"></p>
-<ul>
-<li>HashSet通过hashCode值来确定元素在内存中的位置。一个hashCode位置上可以存放多个元素</li>
-</ul>
+<a id="more"></a>
 
+<p><img src="http://py4grz9th.bkt.clouddn.com/O%291%5DL_SNY~%257K~Z%289%5BX8Y5Y.png" alt="hashcode" title="hashcode"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 希尔排序 </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> [] a=&#123;<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">        sort(a);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> gap = arr.length / <span class="number">2</span>; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="comment">// 从第gap个元素，逐个对其所在的组进行直接插入排序</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = gap; i &lt; arr.length; i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> j = i;</span><br><span class="line">                <span class="keyword">int</span> temp = arr[j];</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &lt; arr[j - gap]) &#123;</span><br><span class="line">                    <span class="keyword">while</span> (j - gap &gt;= <span class="number">0</span> &amp;&amp; temp &lt; arr[j - gap]) &#123;</span><br><span class="line">                        <span class="comment">//移动</span></span><br><span class="line">                        arr[j] = arr[j-gap];</span><br><span class="line">                        j -= gap;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//当退出while后，就给temp找到插入的位置</span></span><br><span class="line">                    arr[j] = temp;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -490,13 +482,11 @@
           
           <div class="post-tags">
             
-              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
             
-              <a href="/tags/java基础/" rel="tag"># java基础</a>
+              <a href="/tags/排序/" rel="tag"># 排序</a>
             
-              <a href="/tags/集合/" rel="tag"># 集合</a>
-            
-              <a href="/tags/HashSet/" rel="tag"># HashSet</a>
+              <a href="/tags/希尔排序/" rel="tag"># 希尔排序</a>
             
           </div>
         
@@ -508,8 +498,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/23/java基础之集合之HashMap/" rel="next" title="java基础之集合之Map之HashMap">
-                  <i class="fa fa-chevron-left"></i> java基础之集合之Map之HashMap
+                <a href="/2019/09/25/数据结构之排序之插入排序/" rel="next" title="数据结构之排序之插入排序">
+                  <i class="fa fa-chevron-left"></i> 数据结构之排序之插入排序
                 </a>
               
             </div>
@@ -518,8 +508,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/09/25/数据结构之排序之冒泡排序/" rel="prev" title="数据结构之排序之冒泡排序">
-                  数据结构之排序之冒泡排序 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/08/数据结构排序之快速排序/" rel="prev" title="数据结构排序之快速排序">
+                  数据结构排序之快速排序 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -575,7 +565,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashSet"><span class="nav-number">1.</span> <span class="nav-text">HashSet</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思想"><span class="nav-number">1.</span> <span class="nav-text">算法思想</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->

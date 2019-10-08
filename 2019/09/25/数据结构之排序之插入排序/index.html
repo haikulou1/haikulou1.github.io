@@ -56,18 +56,20 @@
   };
 </script>
 
-  <meta name="description" content="为了梦想而努力">
+  <meta name="description" content="插入排序算法思想插入排序的基本思想是:把n个待排序的元素看出一个有序表和一个无序表，开始是有序表只包含一个元素，无序表中包含n-1个元素，排序过程中每次从无序表中取出第一个元素，把它的排序码依次与有序表的排序码进行比较，将它插入到有序表中的适当位置，使之成为新的有序表。">
 <meta name="keywords" content="数据结构,排序,插入排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构之排序之插入排序">
 <meta property="og:url" content="https://haikulou1.github.io/2019/09/25/数据结构之排序之插入排序/index.html">
 <meta property="og:site_name" content="骸の博客">
-<meta property="og:description" content="为了梦想而努力">
+<meta property="og:description" content="插入排序算法思想插入排序的基本思想是:把n个待排序的元素看出一个有序表和一个无序表，开始是有序表只包含一个元素，无序表中包含n-1个元素，排序过程中每次从无序表中取出第一个元素，把它的排序码依次与有序表的排序码进行比较，将它插入到有序表中的适当位置，使之成为新的有序表。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-25T11:56:52.457Z">
+<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/3%5BIR%291TGE5%29MBL%5DBRLT%25%280W.png">
+<meta property="og:updated_time" content="2019-09-26T01:24:04.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构之排序之插入排序">
-<meta name="twitter:description" content="为了梦想而努力">
+<meta name="twitter:description" content="插入排序算法思想插入排序的基本思想是:把n个待排序的元素看出一个有序表和一个无序表，开始是有序表只包含一个元素，无序表中包含n-1个元素，排序过程中每次从无序表中取出第一个元素，把它的排序码依次与有序表的排序码进行比较，将它插入到有序表中的适当位置，使之成为新的有序表。">
+<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/3%5BIR%291TGE5%29MBL%5DBRLT%25%280W.png">
   <link rel="canonical" href="https://haikulou1.github.io/2019/09/25/数据结构之排序之插入排序/">
 
 
@@ -209,7 +211,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">13</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">15</span></a>
 
   </li>
       
@@ -231,7 +233,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">13</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">15</span></a>
 
   </li>
       
@@ -253,7 +255,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">12</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">14</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -338,11 +340,19 @@
                 
               
 
-              <time title="创建时间：2019-09-25 19:56:24 / 修改时间：19:56:52" itemprop="dateCreated datePublished" datetime="2019-09-25T19:56:24+08:00">2019-09-25</time>
+              <time title="创建时间：2019-09-25 19:56:24" itemprop="dateCreated datePublished" datetime="2019-09-25T19:56:24+08:00">2019-09-25</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-09-26 09:24:04" itemprop="dateModified" datetime="2019-09-26T09:24:04+08:00">2019-09-26</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -408,7 +418,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <!-- <span title="本文字数">0</span> -->
+                <!-- <span title="本文字数">5k</span> -->
 			  <span title="本文字数">
                   字
                 </span>
@@ -428,7 +438,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><p>插入排序的基本思想是:把n个待排序的元素看出一个有序表和一个无序表，开始是有序表只包含一个元素，无序表中包含n-1个元素，排序过程中每次从无序表中取出第一个元素，把它的排序码依次与有序表的排序码进行比较，将它插入到有序表中的适当位置，使之成为新的有序表。</p>
+ <a id="more"></a>
+
+<p> <img src="http://py4grz9th.bkt.clouddn.com/3%5BIR%291TGE5%29MBL%5DBRLT%25%280W.png" alt="hashcode" title="hashcode"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by 胡歌的小迷弟 on 2019/9/25 16:12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InsertSort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a[]=&#123;<span class="number">3</span>,<span class="number">9</span>,-<span class="number">1</span>,<span class="number">10</span>,-<span class="number">2</span>&#125;;</span><br><span class="line">        insertSort(a);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> insertVal = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> insertIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//使用for循环来把代码简化</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">            insertVal=arr[i];</span><br><span class="line">            insertIndex=i-<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span>(insertIndex&gt;=<span class="number">0</span>&amp;&amp;insertVal&lt;arr[insertIndex])&#123;</span><br><span class="line">                arr[insertIndex+<span class="number">1</span>]=arr[insertIndex];</span><br><span class="line">                insertIndex--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(insertIndex!=i+<span class="number">1</span>)&#123;</span><br><span class="line">                arr[insertIndex+<span class="number">1</span>]=insertVal;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//System.out.println("第"+i+"轮插入");</span></span><br><span class="line">            <span class="comment">//System.out.println(Arrays.toString(arr));</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -500,6 +514,10 @@
 
             <div class="post-nav-prev post-nav-item">
               
+                <a href="/2019/10/08/数据结构排序之希尔排序/" rel="prev" title="数据结构排序之希尔排序">
+                  数据结构排序之希尔排序 <i class="fa fa-chevron-right"></i>
+                </a>
+              
             </div>
           </div>
         
@@ -553,6 +571,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思想"><span class="nav-number">2.</span> <span class="nav-text">算法思想</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -569,7 +589,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -582,7 +602,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -595,7 +615,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -656,7 +676,7 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">18k</span>
+    <span title="站点总字数">22k</span>
 </div>
 
 <span id="busuanzi_container_site_uv">
