@@ -56,21 +56,19 @@
   };
 </script>
 
-  <meta name="description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
-<meta name="keywords" content="java,java基础,集合,HashSet">
+  <meta name="description" content="算法思想 将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列">
+<meta name="keywords" content="数据结构,排序,基数排序">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java基础之集合之set之HashSet">
-<meta property="og:url" content="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/index.html">
+<meta property="og:title" content="数据结构排序之基数排序">
+<meta property="og:url" content="https://haikulou1.github.io/2019/10/09/数据结构排序之基数排序/index.html">
 <meta property="og:site_name" content="骸の博客">
-<meta property="og:description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
+<meta property="og:description" content="算法思想 将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg">
-<meta property="og:updated_time" content="2019-09-25T03:00:25.141Z">
+<meta property="og:updated_time" content="2019-10-09T13:35:50.052Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java基础之集合之set之HashSet">
-<meta name="twitter:description" content="HashSet 哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false">
-<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg">
-  <link rel="canonical" href="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/">
+<meta name="twitter:title" content="数据结构排序之基数排序">
+<meta name="twitter:description" content="算法思想 将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/10/09/数据结构排序之基数排序/">
 
 
 <script id="page-configurations">
@@ -84,7 +82,7 @@
   };
 </script>
 
-  <title>java基础之集合之set之HashSet | 骸の博客</title>
+  <title>数据结构排序之基数排序 | 骸の博客</title>
   
 
 
@@ -312,7 +310,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/09/25/java基础之集合之set之HashSet/">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/10/09/数据结构排序之基数排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="胡歌的小迷弟">
@@ -324,7 +322,7 @@
       <meta itemprop="name" content="骸の博客">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">java基础之集合之set之HashSet
+        <h1 class="post-title" itemprop="name headline">数据结构排序之基数排序
 
           
         </h1>
@@ -340,7 +338,7 @@
                 
               
 
-              <time title="创建时间：2019-09-25 10:59:31 / 修改时间：11:00:25" itemprop="dateCreated datePublished" datetime="2019-09-25T10:59:31+08:00">2019-09-25</time>
+              <time title="创建时间：2019-10-09 20:37:23 / 修改时间：21:35:50" itemprop="dateCreated datePublished" datetime="2019-10-09T20:37:23+08:00">2019-10-09</time>
             </span>
           
             
@@ -353,28 +351,21 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/" itemprop="url" rel="index"><span itemprop="name">排序</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/" itemprop="url" rel="index"><span itemprop="name">集合</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java基础/集合/HashSet/" itemprop="url" rel="index"><span itemprop="name">HashSet</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/基数排序/" itemprop="url" rel="index"><span itemprop="name">基数排序</span></a></span>
 
                 
                 
@@ -401,7 +392,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/09/25/java基础之集合之set之HashSet/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/java基础之集合之set之HashSet/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2019/10/09/数据结构排序之基数排序/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/数据结构排序之基数排序/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -417,7 +408,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <!-- <span title="本文字数">613</span> -->
+                <!-- <span title="本文字数">10k</span> -->
 			  <span title="本文字数">
                   字
                 </span>
@@ -437,13 +428,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h2><ul>
-<li>哈希表边存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。元素的哈希值是通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，HashSet就视为同一个元素。如果equals 为false就不是同一个元素。 哈希值相同equals为false的元素是怎么存储呢,就是在同样的哈希值下顺延（可以认为哈希值相同的元素放在一个哈希桶中）。也就是哈希一样的存一列。左图表示hashCode值不相同的情况；右图表示hashCode值相同，但equals不相同的情况。</li>
+        <h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><ul>
+<li>将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列</li>
 </ul>
-<p><img src="http://py4grz9th.bkt.clouddn.com/1569240786%281%29.jpg" alt="hashcode" title="hashcode"></p>
-<ul>
-<li>HashSet通过hashCode值来确定元素在内存中的位置。一个hashCode位置上可以存放多个元素</li>
-</ul>
+<a id="more"></a>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Created by 胡歌的小迷弟 on 2019/9/25 16:12</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 基数排序 </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">int</span> a[] = &#123; <span class="number">53</span>, <span class="number">3</span>, <span class="number">542</span>, <span class="number">748</span>, <span class="number">14</span>, <span class="number">214</span>&#125;;</span><br><span class="line">           sort(a);</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">               System.out.println(a[i]);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> arr[])</span></span>&#123;</span><br><span class="line">           <span class="comment">//根据前面的推导过程，我们可以得到最终的基数排序代码</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">//1. 得到数组中最大的数的位数</span></span><br><span class="line">           <span class="keyword">int</span> max = arr[<span class="number">0</span>]; <span class="comment">//假设第一数就是最大数</span></span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">               <span class="keyword">if</span> (arr[i] &gt; max) &#123;</span><br><span class="line">                   max = arr[i];</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">//得到最大数是几位数</span></span><br><span class="line">           <span class="keyword">int</span> maxLength = (max + <span class="string">""</span>).length();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           <span class="comment">//定义一个二维数组，表示10个桶, 每个桶就是一个一维数组</span></span><br><span class="line">           <span class="comment">//说明</span></span><br><span class="line">           <span class="comment">//1. 二维数组包含10个一维数组</span></span><br><span class="line">           <span class="comment">//2. 为了防止在放入数的时候，数据溢出，则每个一维数组(桶)，大小定为arr.length</span></span><br><span class="line">           <span class="comment">//3. 名明确，基数排序是使用空间换时间的经典算法</span></span><br><span class="line">           <span class="keyword">int</span>[][] bucket = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>][arr.length];</span><br><span class="line"></span><br><span class="line">           <span class="comment">//为了记录每个桶中，实际存放了多少个数据,我们定义一个一维数组来记录各个桶的每次放入的数据个数</span></span><br><span class="line">           <span class="comment">//可以这里理解</span></span><br><span class="line">           <span class="comment">//比如：bucketElementCounts[0] , 记录的就是  bucket[0] 桶的放入数据个数</span></span><br><span class="line">           <span class="keyword">int</span>[] bucketElementCounts = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">           <span class="comment">//这里我们使用循环将代码处理</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> , n = <span class="number">1</span>; i &lt; maxLength; i++, n *= <span class="number">10</span>) &#123;</span><br><span class="line">               <span class="comment">//(针对每个元素的对应位进行排序处理)， 第一次是个位，第二次是十位，第三次是百位..</span></span><br><span class="line">               <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length; j++) &#123;</span><br><span class="line">                   <span class="comment">//取出每个元素的对应位的值</span></span><br><span class="line">                   <span class="keyword">int</span> digitOfElement = arr[j] / n % <span class="number">10</span>;</span><br><span class="line">                   <span class="comment">//放入到对应的桶中</span></span><br><span class="line">                   bucket[digitOfElement][bucketElementCounts[digitOfElement]] = arr[j];</span><br><span class="line">                   bucketElementCounts[digitOfElement]++;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">//按照这个桶的顺序(一维数组的下标依次取出数据，放入原来数组)</span></span><br><span class="line">               <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">               <span class="comment">//遍历每一桶，并将桶中是数据，放入到原数组</span></span><br><span class="line">               <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; bucketElementCounts.length; k++) &#123;</span><br><span class="line">                   <span class="comment">//如果桶中，有数据，我们才放入到原数组</span></span><br><span class="line">                   <span class="keyword">if</span>(bucketElementCounts[k] != <span class="number">0</span>) &#123;</span><br><span class="line">                       <span class="comment">//循环该桶即第k个桶(即第k个一维数组), 放入</span></span><br><span class="line">                       <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; bucketElementCounts[k]; l++) &#123;</span><br><span class="line">                           <span class="comment">//取出元素放入到arr</span></span><br><span class="line">                           arr[index++] = bucket[k][l];</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="comment">//第i+1轮处理后，需要将每个 bucketElementCounts[k] = 0 ！！！！</span></span><br><span class="line">                   bucketElementCounts[k] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">               &#125;</span><br><span class="line">               <span class="comment">//System.out.println("第"+(i+1)+"轮，对个位的排序处理 arr =" + Arrays.toString(arr));</span></span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -490,13 +483,11 @@
           
           <div class="post-tags">
             
-              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
             
-              <a href="/tags/java基础/" rel="tag"># java基础</a>
+              <a href="/tags/排序/" rel="tag"># 排序</a>
             
-              <a href="/tags/集合/" rel="tag"># 集合</a>
-            
-              <a href="/tags/HashSet/" rel="tag"># HashSet</a>
+              <a href="/tags/基数排序/" rel="tag"># 基数排序</a>
             
           </div>
         
@@ -508,8 +499,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/23/java基础之集合之HashMap/" rel="next" title="java基础之集合之Map之HashMap">
-                  <i class="fa fa-chevron-left"></i> java基础之集合之Map之HashMap
+                <a href="/2019/10/09/数据结构排序之归并排序/" rel="next" title="数据结构排序之归并排序">
+                  <i class="fa fa-chevron-left"></i> 数据结构排序之归并排序
                 </a>
               
             </div>
@@ -517,10 +508,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/09/25/数据结构之排序之冒泡排序/" rel="prev" title="数据结构之排序之冒泡排序">
-                  数据结构之排序之冒泡排序 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -575,7 +562,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashSet"><span class="nav-number">1.</span> <span class="nav-text">HashSet</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思想"><span class="nav-number">1.</span> <span class="nav-text">算法思想</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
