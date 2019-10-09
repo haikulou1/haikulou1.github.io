@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haikulou1.github.io/"/>
-  <updated>2019-10-09T13:35:50.052Z</updated>
+  <updated>2019-10-09T13:40:22.608Z</updated>
   <id>https://haikulou1.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>排序算法总结</title>
+    <link href="https://haikulou1.github.io/2019/10/09/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>https://haikulou1.github.io/2019/10/09/排序算法总结/</id>
+    <published>2019-10-09T13:37:01.000Z</published>
+    <updated>2019-10-09T13:40:22.608Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://py4grz9th.bkt.clouddn.com/_%28T%5DQMI6%294Q80E19QN6%5B%6005.png" alt="hashcode" title="hashcode"></p><p>相关术语解释：</p><ul><li><p>稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；</p></li><li><p>不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；</p></li><li><p>内排序：所有排序操作都在内存中完成；</p></li><li><p>外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；</p></li><li><p>时间复杂度： 一个算法执行所耗费的时间。</p></li><li><p>空间复杂度：运行完一个程序所需内存的大小。</p></li><li><p>n: 数据规模</p></li><li><p>k: “桶”的个数</p></li><li><p>In-place:    不占用额外内存</p></li><li><p>Out-place: 占用额外内存</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;http://py4grz9th.bkt.clouddn.com/_%28T%5DQMI6%294Q80E19QN6%5B%6005.png&quot; alt=&quot;hashcode&quot; title=&quot;hashcode&quot;&gt;&lt;/p&gt;
+&lt;p&gt;相关术语解释：&lt;/p&gt;
+&lt;ul
+      
+    
+    </summary>
+    
+    
+      <category term="数据结构" scheme="https://haikulou1.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+      <category term="排序" scheme="https://haikulou1.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%8E%92%E5%BA%8F/"/>
+    
+    
+      <category term="数据结构" scheme="https://haikulou1.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+      <category term="排序" scheme="https://haikulou1.github.io/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>数据结构排序之基数排序</title>

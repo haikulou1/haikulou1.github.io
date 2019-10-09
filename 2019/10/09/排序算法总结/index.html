@@ -56,17 +56,21 @@
   };
 </script>
 
-  <meta name="description" content="为了梦想而努力">
-<meta property="og:type" content="website">
-<meta property="og:title" content="骸の博客">
-<meta property="og:url" content="https://haikulou1.github.io/tags/基数排序/index.html">
+  <meta name="description" content="相关术语解释：  稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；  不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；  内排序：所有排序操作都在内存中完成；  外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；  时间复杂度： 一个算法执行所耗费的时间。  空间复杂度：运行完一个程序所需内存的大小。  n: 数据规模  k">
+<meta name="keywords" content="数据结构,排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法总结">
+<meta property="og:url" content="https://haikulou1.github.io/2019/10/09/排序算法总结/index.html">
 <meta property="og:site_name" content="骸の博客">
-<meta property="og:description" content="为了梦想而努力">
+<meta property="og:description" content="相关术语解释：  稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；  不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；  内排序：所有排序操作都在内存中完成；  外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；  时间复杂度： 一个算法执行所耗费的时间。  空间复杂度：运行完一个程序所需内存的大小。  n: 数据规模  k">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://py4grz9th.bkt.clouddn.com/_%28T%5DQMI6%294Q80E19QN6%5B%6005.png">
+<meta property="og:updated_time" content="2019-10-09T13:40:22.608Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="骸の博客">
-<meta name="twitter:description" content="为了梦想而努力">
-  <link rel="canonical" href="https://haikulou1.github.io/tags/基数排序/">
+<meta name="twitter:title" content="排序算法总结">
+<meta name="twitter:description" content="相关术语解释：  稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；  不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；  内排序：所有排序操作都在内存中完成；  外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；  时间复杂度： 一个算法执行所耗费的时间。  空间复杂度：运行完一个程序所需内存的大小。  n: 数据规模  k">
+<meta name="twitter:image" content="http://py4grz9th.bkt.clouddn.com/_%28T%5DQMI6%294Q80E19QN6%5B%6005.png">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/10/09/排序算法总结/">
 
 
 <script id="page-configurations">
@@ -74,13 +78,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>标签: 基数排序 | 骸の博客</title>
+  <title>排序算法总结 | 骸の博客</title>
   
 
 
@@ -299,85 +303,242 @@
         <div class="content-wrap">
             
 
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-  
-
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-  <div class="post-block tag">
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">基数排序<small>标签</small>
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/10/09/排序算法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡歌的小迷弟">
+      <meta itemprop="description" content="为了梦想而努力">
+      <meta itemprop="image" content="/images/icon.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="骸の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">排序算法总结
+
+          
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-09 21:37:01 / 修改时间：21:40:22" itemprop="dateCreated datePublished" datetime="2019-10-09T21:37:01+08:00">2019-10-09</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/排序/" itemprop="url" rel="index"><span itemprop="name">排序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/09/排序算法总结/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/排序算法总结/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+         
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <!-- <span title="本文字数">549</span> -->
+			  <span title="本文字数">
+                  字
+                </span>
+              
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="http://py4grz9th.bkt.clouddn.com/_%28T%5DQMI6%294Q80E19QN6%5B%6005.png" alt="hashcode" title="hashcode"></p>
+<p>相关术语解释：</p>
+<ul>
+<li><p>稳定：如果a原本在b前面，而a=b，排序之后a仍然在b的前面；</p>
+</li>
+<li><p>不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；</p>
+</li>
+<li><p>内排序：所有排序操作都在内存中完成；</p>
+</li>
+<li><p>外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；</p>
+</li>
+<li><p>时间复杂度： 一个算法执行所耗费的时间。</p>
+</li>
+<li><p>空间复杂度：运行完一个程序所需内存的大小。</p>
+</li>
+<li><p>n: 数据规模</p>
+</li>
+<li><p>k: “桶”的个数</p>
+</li>
+<li><p>In-place:    不占用额外内存</p>
+</li>
+<li><p>Out-place: 占用额外内存</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      
 
       
 
-  
-  
+      
+        
+      
+      
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
 
+  </div>
+</div>
+
+      
+
+      
+<div>
   
+    <div>
     
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
   
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
+      <footer class="post-footer">
         
-          <a class="post-title-link" href="/2019/10/09/数据结构排序之基数排序/" itemprop="url">
-            <span itemprop="name">数据结构排序之基数排序</span>
-          </a>
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            
+              <a href="/tags/排序/" rel="tag"># 排序</a>
+            
+          </div>
         
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-09T20:37:23+08:00"
-              content="2019-10-09">
-          10-09
-        </time>
-      </div>
-
-    </header>
-  </article>
+        
 
 
+        
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/09/数据结构排序之基数排序/" rel="next" title="数据结构排序之基数排序">
+                  <i class="fa fa-chevron-left"></i> 数据结构排序之基数排序
+                </a>
+              
+            </div>
 
-    </div>
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
   </div>
   
-  
-  
+
 
   
+  
+  
+  </article>
 
+  </div>
 
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
 
         </div>
           
@@ -392,6 +553,11 @@
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
