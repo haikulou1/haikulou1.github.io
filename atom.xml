@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haikulou1.github.io/"/>
-  <updated>2019-10-09T13:40:22.608Z</updated>
+  <updated>2019-10-10T13:21:37.241Z</updated>
   <id>https://haikulou1.github.io/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>java基础之集合之concurrentHashmap</title>
+    <link href="https://haikulou1.github.io/2019/10/10/java%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%9B%86%E5%90%88%E4%B9%8BconcurrentHashmap/"/>
+    <id>https://haikulou1.github.io/2019/10/10/java基础之集合之concurrentHashmap/</id>
+    <published>2019-10-10T13:02:23.000Z</published>
+    <updated>2019-10-10T13:21:37.241Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/weixin_44460333/article/details/86770169" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44460333/article/details/86770169</a> 写的非常好<br>有一个小错误：在concurrentHashmap的put方法中第三点应该是：为空则需要新建一个 HashEntry 并加入到 Segment 中，同时会先判断是否需要扩容</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/weixin_44460333/article/details/86770169&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/weixin_4446
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://haikulou1.github.io/categories/java/"/>
+    
+      <category term="java基础" scheme="https://haikulou1.github.io/categories/java/java%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="集合" scheme="https://haikulou1.github.io/categories/java/java%E5%9F%BA%E7%A1%80/%E9%9B%86%E5%90%88/"/>
+    
+      <category term="concurrentHashMap" scheme="https://haikulou1.github.io/categories/java/java%E5%9F%BA%E7%A1%80/%E9%9B%86%E5%90%88/concurrentHashMap/"/>
+    
+    
+      <category term="java" scheme="https://haikulou1.github.io/tags/java/"/>
+    
+      <category term="java基础" scheme="https://haikulou1.github.io/tags/java%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="集合" scheme="https://haikulou1.github.io/tags/%E9%9B%86%E5%90%88/"/>
+    
+      <category term="concurrentHashMap" scheme="https://haikulou1.github.io/tags/concurrentHashMap/"/>
+    
+  </entry>
   
   <entry>
     <title>排序算法总结</title>
