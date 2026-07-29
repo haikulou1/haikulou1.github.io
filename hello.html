@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <title>Hello, World!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #222;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        h1 {
+            font-size: 3rem;
+            margin: 0 0 1rem;
+        }
+        #message {
+            font-size: 1.5rem;
+            color: #7fdbff;
+            min-height: 2.5rem;
+        }
+        #source {
+            font-size: 1rem;
+            color: #888;
+            margin-top: 1rem;
+        }
+        #status {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <div id="message">加载中...</div>
+    <div id="source"></div>
+    <div id="status"></div>
+
+    <script>
+        // 后端接口地址（leecode 仓库提供的 HelloWorld 服务）
+        var API_URL = "http://localhost:8080/hello";
+
+        var messageEl = document.getElementById("message");
+        var sourceEl = document.getElementById("source");
+        var statusEl = document.getElementById("status");
+
+        fetch(API_URL)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                messageEl.textContent = data.message;
+                sourceEl.textContent = "来源：" + data.source;
+                statusEl.textContent = "接口调用成功";
+            })
+            .catch(function (err) {
+                // 后端不可达时的静态降级，保证 GitHub Pages 始终有内容
+                messageEl.textContent = "Hello, World! (前端静态兜底)";
+                sourceEl.textContent = "来源：前端兜底（后端未启动）";
+                statusEl.textContent = "接口调用失败：" + err.message;
+            });
+    </script>
+</body>
+</html>
