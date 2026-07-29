@@ -3,19 +3,24 @@
   "stage": "review",
   "node": "代码评审",
   "skill": "dtazziboot-java-code-review",
-  "blocker_count": 4,
-  "major_count": 3,
+  "blocker_count": 0,
+  "major_count": 2,
   "minor_count": 6,
-  "verdict": "不通过（存在4个P0 Blocker，需修复后重新评审）",
-  "blockers": [
-    {"id": 1, "severity": "P0", "rule": "H2-lifecycle", "file": "server/src/main/java/cn/haikulou/auth/UserRepository.java", "line": 25, "summary": "H2内存库在连接关闭后被销毁，登录首次后永久失败", "fix": "JDBC URL添加;DB_CLOSE_DELAY=-1"},
-    {"id": 2, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/AuthService.java", "line": 58, "summary": "verifyToken catch块无日志记录", "fix": "添加LOG.log(Level.WARNING,...)"},
-    {"id": 3, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/AuthService.java", "line": 78, "summary": "getCurrentUser catch块无日志记录", "fix": "添加LOG.log(Level.WARNING,...)"},
-    {"id": 4, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/JwtUtil.java", "line": 90, "summary": "isExpired catch块无日志记录", "fix": "添加Logger并记录异常级别信息"}
+  "verdict": "通过（Round 1 的4个P0 Blocker已全部修复验证，2个P1 Major建议生产部署前修复，不阻塞合并）",
+  "review_round": 2,
+  "round1_blockers_resolved": [
+    {"id": 1, "severity": "P0", "rule": "H2-lifecycle", "file": "server/src/main/java/cn/haikulou/auth/UserRepository.java", "line": 25, "summary": "H2内存库在连接关闭后被销毁，登录首次后永久失败", "fix": "JDBC URL添加;DB_CLOSE_DELAY=-1", "round2_status": "已修复"},
+    {"id": 2, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/AuthService.java", "line": 59, "summary": "verifyToken catch块无日志记录", "fix": "添加LOG.log(Level.WARNING,...)", "round2_status": "已修复"},
+    {"id": 3, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/AuthService.java", "line": 80, "summary": "getCurrentUser catch块无日志记录", "fix": "添加LOG.log(Level.WARNING,...)", "round2_status": "已修复"},
+    {"id": 4, "severity": "P0", "rule": "G16.2", "file": "server/src/main/java/cn/haikulou/auth/JwtUtil.java", "line": 95, "summary": "isExpired catch块无日志记录", "fix": "添加Logger并记录异常级别信息", "round2_status": "已修复"}
+  ],
+  "majors": [
+    {"id": "P1-1", "severity": "P1", "rule": "自定义-JWT-API", "file": "server/src/main/java/cn/haikulou/auth/JwtUtil.java", "line": 67, "summary": "signWith(SignatureAlgorithm.HS256, String) 使用jjwt 0.9.1 String重载，DEFAULT_SECRET含连字符非合法Base64，密钥强度低于预期", "fix": "改用getSecret().getBytes(StandardCharsets.UTF_8)的byte[]重载"},
+    {"id": "P1-2", "severity": "P1", "rule": "S10.2", "file": "server/src/main/java/cn/haikulou/auth/CorsFilter.java", "line": 33, "summary": "Access-Control-Allow-Origin: * 配合Authorization头，允许任意源跨域携带Token", "fix": "生产环境将*替换为具体前端域名"}
   ],
   "report_path": ".agents/20260729-写登录需求前端放leetcode后端放haikulou/cr_report.md",
   "repo_haikulou1_github_io": {
-    "commit": "9e36d14",
+    "commit": "3dd20e9",
     "branch": "AI/task-DEV-ddccb2af-7620-11f1-9e19-e337058ec5b9-7bcc388b-855b-47f7-",
     "files_reviewed": 13,
     "lines": 1081
