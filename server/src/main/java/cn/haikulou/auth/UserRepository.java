@@ -22,7 +22,7 @@ public class UserRepository {
 
     private static final Logger LOG = Logger.getLogger(UserRepository.class.getName());
 
-    private static final String JDBC_URL = "jdbc:h2:mem:authdb";
+    private static final String JDBC_URL = "jdbc:h2:mem:authdb;DB_CLOSE_DELAY=-1";
     private static final String JDBC_USER = "sa";
     private static final String JDBC_PASSWORD = "";
 
@@ -66,9 +66,14 @@ public class UserRepository {
             initialized = true;
             LOG.info("默认用户 admin 初始化完成");
         } catch (SQLException e) {
-            // 表或用户已存在时忽略，视为已初始化
-            LOG.log(Level.WARNING, "默认用户初始化跳过（可能已存在）: {0}", e.getMessage());
-            initialized = true;
+            // 区分"表/用户已存在"与严重错误：仅前者标记为已初始化，后者保持 false 允许重试
+            int errorCode = e.getErrorCode();
+            if (errorCode == 42101 || errorCode == 23505) {
+                LOG.log(Level.INFO, "默认用户已存在，跳过初始化: {0}", e.getMessage());
+                initialized = true;
+            } else {
+                LOG.log(Level.SEVERE, "默认用户初始化失败，将在下次请求时重试: {0}", e.getMessage());
+            }
         }
     }
 

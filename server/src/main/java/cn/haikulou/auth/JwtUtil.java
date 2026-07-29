@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * JWT 签发与解析工具。
@@ -18,8 +20,10 @@ public final class JwtUtil {
     /** Secret 环境变量名 */
     private static final String ENV_JWT_SECRET = "JWT_SECRET";
 
-    /** 开发期默认 Secret，生产必须通过环境变量覆盖 */
-    private static final String DEFAULT_SECRET = "haikulou-dev-secret-key";
+    /** 开发期默认 Secret（32 字节，满足 HS256 最低 256-bit 要求），生产必须通过环境变量覆盖 */
+    private static final String DEFAULT_SECRET = "haikulou-dev-secret-key-20260729";
+
+    private static final Logger LOG = Logger.getLogger(JwtUtil.class.getName());
 
     /** Token 有效期：24 小时（毫秒） */
     private static final long EXPIRATION_MS = 24L * 60 * 60 * 1000;
@@ -39,6 +43,7 @@ public final class JwtUtil {
     private static String getSecret() {
         String secret = System.getenv(ENV_JWT_SECRET);
         if (secret == null || secret.isEmpty()) {
+            LOG.log(Level.WARNING, "JWT_SECRET 环境变量未配置，使用开发默认密钥，生产环境必须配置");
             return DEFAULT_SECRET;
         }
         return secret;
@@ -88,6 +93,7 @@ public final class JwtUtil {
             Claims claims = parseToken(token);
             return claims.getExpiration().before(new Date());
         } catch (Exception e) {
+            LOG.log(Level.WARNING, "Token 解析失败，判定为已过期: {0}", e.getMessage());
             return true;
         }
     }

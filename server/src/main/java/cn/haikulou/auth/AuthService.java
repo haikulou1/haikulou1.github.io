@@ -3,6 +3,7 @@ package cn.haikulou.auth;
 import io.jsonwebtoken.Claims;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -53,9 +54,10 @@ public class AuthService {
      */
     public boolean verifyToken(String token) {
         try {
-            Claims claims = JwtUtil.parseToken(token);
-            return !JwtUtil.isExpired(token);
+            JwtUtil.parseToken(token);
+            return true;
         } catch (Exception e) {
+            LOG.log(Level.WARNING, "Token 验证失败: {0}", e.getMessage());
             return false;
         }
     }
@@ -76,6 +78,7 @@ public class AuthService {
             User user = userRepository.findById(userId);
             return UserInfo.fromUser(user);
         } catch (Exception e) {
+            LOG.log(Level.WARNING, "获取当前用户失败: {0}", e.getMessage());
             return null;
         }
     }
