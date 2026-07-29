@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+spring:
+  application:
+    name: login-server
+
+logging:
+  level:
+    com.haikulou.login: INFO
+    org.springframework.web: INFO
