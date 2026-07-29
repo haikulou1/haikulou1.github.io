@@ -1,373 +1,345 @@
-# 代码评审报告：用户登录功能（跨仓）
+# Code Review Report — 用户登录功能（前端 leecode / 后端 haikulou）
 
-> **评审元信息**
+> **Change** `登录功能编码实现` · **分支** `AI/task-DEV-ddccb2af-7620-11f1-9e19-e337058ec5b9-7bcc388b-855b-47f7-` · **Commit** `9e36d14` (haikulou) / `2f075b4` (leecode) · **日期** `2026-07-29`
 >
-> | 项目 | 值 |
-> |------|-----|
-> | 评审主题 | 用户登录功能（前端 leecode / 后端 haikulou1.github.io） |
-> | 评审阶段 | review（代码评审） |
-> | 使用技能 | dtazziboot-java-code-review |
-> | 评审基线 | `.agents/20260729-写登录需求前端放leetcode后端放haikulou/design.md` |
-> | 后端提交 | `9e36d14` [auto-dev] 编码实现 (stage: coding, round: 1) |
-> | 前端提交 | `2f075b4` [auto-dev] 编码实现 (stage: coding, round: 1) |
-> | 评审日期 | 2026-07-29 |
-> | Blocker 数 | 0 |
-> | Major 数 | 4 |
-> | Minor 数 | 4 |
-> | 评审结论 | **通过（有改进建议）** — 功能完整，契约对齐，无阻断级缺陷 |
+> **审查技能**：dtazziboot-java-code-review · **审查模式**：SDD 范式结构化审查（scan-all-rules.sh + LLM 逐文件复核）
+>
+> **系分基线**：`.agents/20260729-写登录需求前端放leetcode后端放haikulou/design.md`
 
 ---
 
-## 一、评审范围
+## 审查结论摘要
 
-### 1.1 变更文件清单
+| 指标 | 数量 |
+|------|------|
+| **Blocker (P0)** | **4** |
+| Major (P1) | 3 |
+| Info (P2) | 6 |
+| scan-all-rules.sh 误报 | 6（已排除） |
+| 变更文件总数 | 16（后端 13 + 前端 3） |
 
-| 仓库 | 文件路径（逻辑前缀） | 类型 | 行数 |
-|------|---------------------|------|------|
-| [haikulou1.github.io] | `server/pom.xml` | 后端-新增 | 78 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/LoginServlet.java` | 后端-新增 | 142 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/LogoutServlet.java` | 后端-新增 | 66 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/CurrentUserServlet.java` | 后端-新增 | 69 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/AuthService.java` | 后端-新增 | 94 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/UserRepository.java` | 后端-新增 | 137 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/JwtUtil.java` | 后端-新增 | 94 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/User.java` | 后端-新增 | 107 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/UserInfo.java` | 后端-新增 | 59 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/LoginResult.java` | 后端-新增 | 49 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/ApiResponse.java` | 后端-新增 | 83 |
-| [haikulou1.github.io] | `server/src/main/java/cn/haikulou/auth/CorsFilter.java` | 后端-新增 | 52 |
-| [haikulou1.github.io] | `server/src/main/webapp/WEB-INF/web.xml` | 后端-新增 | 51 |
-| [leecode] | `web/login/index.html` | 前端-新增 | 53 |
-| [leecode] | `web/login/login.css` | 前端-新增 | 113 |
-| [leecode] | `web/login/login.js` | 前端-新增 | 211 |
-
-> 合计：后端 1081 行（13 文件），前端 377 行（3 文件），均为纯新增。
+> **合并建议**：❌ **不可合并** — 存在 4 个 P0 Blocker。其中 Blocker #1（H2 内存数据库生命周期缺陷）导致登录功能在首次初始化连接关闭后完全不可用，必须修复后重新评审。
 
 ---
 
-## 二、逐文件审查
+## Step 1 — 执行队列（产物 A）
 
-### 2.1 [haikulou1.github.io] LoginServlet.java
+> **scan-all-rules.sh 预扫结果**（52/222 规则覆盖，引擎 ripgrep）：
+> ```
+> [P0] G16.2 — CatchWithoutLogging: AuthService.java:58
+> [P0] G16.2 — CatchWithoutLogging: AuthService.java:78
+> [P0] G16.2 — CatchWithoutLogging: JwtUtil.java:90
+> [P0] G16.2 — CatchWithoutLogging: LoginServlet.java:78
+> [P0] G16.2 — CatchWithoutLogging: LoginServlet.java:82
+> [P0] G16.2 — CatchWithoutLogging: UserRepository.java:68
+> [P0] G16.2 — CatchWithoutLogging: UserRepository.java:91
+> [P0] G16.2 — CatchWithoutLogging: UserRepository.java:113
+> [P1] S10.2 — CorsWildcard: CorsFilter.java:33
+> [P2] I004 — JavaUtilDate: JwtUtil.java:89
+> === Summary: 10 findings (P0=8, P1=1, P2=1) ===
+> ```
 
-#### 功能核对（对照 design.md API-01）
+> **误报排除（6 条）**：LoginServlet.java:78,82 和 UserRepository.java:68,91,113 共 6 处 catch 块均包含 `LOG.log(Level.WARNING/SEVERE, ...)` 日志记录，scan-all-rules.sh 未识别 `java.util.logging.Logger.log()` 模式，判定为**误报**，已在 Step 4 复核中排除。
+>
+> **真实命中（4 条）**：AuthService.java:58、AuthService.java:78、JwtUtil.java:90 三处 catch 块确实无日志记录（G16.2 P0 确认）；CorsFilter.java:33 CORS 通配符（S10.2 P1 确认）；JwtUtil.java:89 java.util.Date（I004 P2 确认）。
 
-| 契约项 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| 路由 | `POST /api/login` | web.xml 映射 `/api/login`，doPost 重写 | ✅ 一致 |
-| 请求体 | `{username, password}` JSON | Gson 反序列化 LoginRequest DTO | ✅ 一致 |
-| 用户名校验 | 3-32 位字母数字下划线 | `Pattern.compile("^[a-zA-Z0-9_]{3,32}$")` | ✅ 一致 |
-| 密码校验 | 长度 6-64 | `PASSWORD_MIN_LEN=6, PASSWORD_MAX_LEN=64` | ✅ 一致 |
-| 成功响应 | HTTP 200 + `ApiResponse.success(LoginResult)` | `SC_OK` + `ApiResponse.success(result)` | ✅ 一致 |
-| 认证失败 | HTTP 401 + code=40101 | `SC_UNAUTHORIZED` + `CODE_AUTH_FAILED=40101` | ✅ 一致 |
-| 参数错误 | HTTP 400 + code=40001 | `SC_BAD_REQUEST` + `CODE_PARAM_ERROR=40001` | ✅ 一致 |
-| 服务器错误 | HTTP 500 + code=50000 | `SC_INTERNAL_SERVER_ERROR` + `CODE_SERVER_ERROR=50000` | ✅ 一致 |
-| 空请求体处理 | — | `gson.fromJson("")` 返回 null → validateInput 拦截 | ✅ 正确 |
-| JSON 格式错误 | — | catch `JsonSyntaxException` → 400 | ✅ 正确 |
-
-#### 可读性检查
-
-- ✅ Javadoc 完整，含路由、请求体、响应说明
-- ✅ 错误码常量命名语义清晰（`CODE_SUCCESS`/`CODE_PARAM_ERROR`/`CODE_AUTH_FAILED`/`CODE_SERVER_ERROR`）
-- ✅ 方法职责单一：`parseRequestBody`/`validateInput`/`toJson` 分离清晰
-- ✅ LoginRequest 作为私有静态内部类 DTO，作用域正确
-
-#### 可靠性检查
-
-- ✅ 异常处理层次分明：`JsonSyntaxException`（400）→ `Exception`（500），无异常吞没
-- ✅ `serialVersionUID` 显式声明，序列化兼容
-- ✅ 日志分级：`WARNING`（解析失败）+ `SEVERE`（服务器异常），不记录密码明文
-- ⚠️ **Minor-1**：`PrintWriter out = response.getWriter()` 在 try 块外获取，若 getWriter 抛异常不会被 catch。属 Servlet 标准模式，实际影响低。
-- ⚠️ **Minor-2**：design.md flowchart（Step 5.2.6）提及"Content-Type 检查"步骤，代码未显式检查 Content-Type。Gson 容错可接受，但与设计流程图存在细微偏差。
-
----
-
-### 2.2 [haikulou1.github.io] AuthService.java
-
-#### 功能核对（对照 design.md Step 5.2.2）
-
-| 方法 | 设计要求 | 实现情况 | 结论 |
-|------|---------|---------|------|
-| `login(username, password)` | 查询用户 → BCrypt 校验 → 生成 JWT → 返回 LoginResult | findByUsername → BCrypt.checkpw → JwtUtil.generateToken → new LoginResult | ✅ 一致 |
-| `verifyToken(token)` | 解析并验证 JWT 有效性 | parseToken + isExpired | ✅ 功能正确 |
-| `getCurrentUser(token)` | 从 Token 提取 userId → 查询用户 | parseToken → claims.get("userId") → findById → UserInfo.fromUser | ✅ 一致（返回类型 UserInfo 优于设计中的 User） |
-| `logout(token)` | 无状态模式，客户端清除即可 | 仅日志记录 token 前缀 | ✅ 一致 |
-
-#### 可读性检查
-
-- ✅ Javadoc 完整，标注业务层定位（协调 UserRepository + JwtUtil）
-- ✅ 日志记录登录成功/失败，含 username 上下文
-- ✅ logout 中 token 前缀截取（`Math.min(16, token.length())`）避免日志泄露完整 token
-
-#### 可靠性检查
-
-- ✅ `logout` 中 token null 防御：`token == null ? "null" : token.substring(...)`，无 NPE 风险
-- ✅ `getCurrentUser` catch Exception 返回 null，降级合理
-- ⚠️ **Major-1**：`verifyToken` 中 `Claims claims = JwtUtil.parseToken(token)` 声明后未使用，且 `JwtUtil.isExpired(token)` 内部再次调用 `parseToken`，导致同一 token 被解析两次。功能正确但存在冗余解析与未使用变量。
-  - 建议：`verifyToken` 可简化为 `try { JwtUtil.parseToken(token); return true; } catch (Exception e) { return false; }`（parseToken 已校验签名+过期）
-- ⚠️ **Minor-3**：`getCurrentUser` catch 块无日志记录，异常被静默吞没。建议补充 `LOG.log(Level.WARNING, "获取当前用户失败", e)`。
+| # | 文件（仓库相对路径） | 归属原因 | Step2 REQ | Step3 可读性 | 总状态 |
+|---|---------------------|---------|-----------|-------------|--------|
+| 1 | `server/pom.xml` | 构建配置 | ✅ | ✅ | ✅ |
+| 2 | `server/.../ApiResponse.java` | 统一响应封装 | ✅ | ✅ | ✅ |
+| 3 | `server/.../AuthService.java` | 认证业务层 | ✅ | ✅ | ❌ G16.2×2 |
+| 4 | `server/.../CorsFilter.java` | 跨域过滤器 | ✅ | ✅ | ⚠️ S10.2 |
+| 5 | `server/.../CurrentUserServlet.java` | 当前用户接口 | ✅ | ✅ | ✅ |
+| 6 | `server/.../JwtUtil.java` | JWT 工具 | ✅ | ✅ | ❌ G16.2+I004 |
+| 7 | `server/.../LoginResult.java` | 登录结果 DTO | ✅ | ✅ | ✅ |
+| 8 | `server/.../LoginServlet.java` | 登录入口 | ✅ | ✅ | ✅ (误报×2) |
+| 9 | `server/.../LogoutServlet.java` | 登出入口 | ✅ | ✅ | ✅ |
+| 10 | `server/.../User.java` | 用户实体 | ✅ | ✅ | ✅ |
+| 11 | `server/.../UserInfo.java` | 用户视图对象 | ✅ | ✅ | ✅ |
+| 12 | `server/.../UserRepository.java` | 数据访问层 | ✅ | ✅ | ❌ P0-H2生命周期 |
+| 13 | `server/.../web.xml` | 部署描述 | ✅ | ✅ | ✅ |
+| 14 | `web/login/index.html` | 前端页面 | ✅ | ✅ | ✅ |
+| 15 | `web/login/login.css` | 前端样式 | ✅ | ✅ | ✅ |
+| 16 | `web/login/login.js` | 前端逻辑 | ✅ | ✅ | ⚠️ P2 |
 
 ---
 
-### 2.3 [haikulou1.github.io] UserRepository.java
+## Step 2 — 功能核对（产物 B：REQ 绑定）
 
-#### 功能核对（对照 design.md Step 5.2.4）
+> 系分文档：`.agents/20260729-写登录需求前端放leetcode后端放haikulou/design.md`
 
-| 方法 | 设计要求 | 实现情况 | 结论 |
-|------|---------|---------|------|
-| `findByUsername(username)` | 按用户名查询 | PreparedStatement 参数化查询 | ✅ 一致 |
-| `findById(id)` | 按 ID 查询（getCurrentUser 依赖） | PreparedStatement 参数化查询 | ✅ 新增合理 |
-| `initDefaultUser()` | 初始化默认用户 admin/BCrypt("123456") | DDL 建表 + INSERT admin/BCrypt.hashpw("123456", gensalt(10)) | ✅ 一致 |
-| SQL 注入防护 | 参数化查询 | 全部 PreparedStatement，无字符串拼接 | ✅ 合规 |
-| H2 内存库 | `jdbc:h2:mem:authdb` | JDBC_URL 常量 | ✅ 一致 |
+| REQ ID | 需求项 | 实现文件 | 实现状态 | 验收 |
+|--------|--------|---------|---------|------|
+| R-01 | 用户登录页面 | [leecode] `web/login/index.html` | ✅ 已实现 | AC-01 ✅ |
+| R-02 | 登录认证接口 | [haikulou] `LoginServlet.java` | ✅ 已实现 | AC-02/03 ✅ |
+| R-03 | 登录状态保持 | [haikulou] `JwtUtil.java` + [leecode] `login.js` | ✅ 已实现 | AC-06 ✅ |
+| R-04 | 登录失败提示 | [leecode] `login.js` + [haikulou] `LoginServlet.java` | ✅ 已实现 | AC-03/04 ✅ |
+| R-05 | 登出功能 | [haikulou] `LogoutServlet.java` + [leecode] `login.js` | ✅ 已实现 | AC-07 ✅ |
+| R-06 | 密码安全存储 | [haikulou] `UserRepository.java` (BCrypt) | ✅ 已实现 | AC-05 ✅ |
 
-#### 可读性检查
+**额外实现（系分 API-03 设计，代码已实现）**：
+- `CurrentUserServlet.java` — `GET /api/user/current` 接口 ✅
+- `LoginResult.java` — 登录结果 DTO ✅
+- `UserInfo.java` — 用户视图对象（屏蔽 passwordHash）✅
 
-- ✅ SQL 常量提取为静态 final，命名清晰（`SQL_FIND_BY_USERNAME` 等）
-- ✅ DDL 内嵌为常量，建表逻辑集中
-- ✅ Javadoc 完整，标注双检锁线程安全
-
-#### 可靠性检查
-
-- ✅ `initDefaultUser` 使用 `synchronized` + `volatile initialized` 双检锁，线程安全
-- ✅ Connection/PreparedStatement/ResultSet 全部 try-with-resources，无资源泄漏
-- ✅ `User.fromResultSet(rs)` 封装列名映射，避免散落映射逻辑
-- ✅ BCrypt salt rounds=10，与 design.md 6.1 一致
-- ⚠️ **Minor-4**：`initDefaultUser` catch `SQLException` 后无条件设置 `initialized = true`，即使是非"已存在"原因的建表失败也会标记为已初始化。MVP 阶段 H2 内存库首次启动不会冲突，影响低。建议区分错误码（如 `23505` 唯一约束冲突）后决定是否标记初始化。
+**功能完整性结论**：需求 R-01 ~ R-06 全部实现，与系分文档接口契约一致。但 Blocker #1 导致运行时功能不可用（见 Step 4）。
 
 ---
 
-### 2.4 [haikulou1.github.io] JwtUtil.java
+## Step 3 — 可读性检查（产物 C）
 
-#### 功能核对（对照 design.md Step 5.2.3）
+> 参考 `references/readability-checklist.md`（阿里巴巴 Java 代码风格 A1–A7）
 
-| 配置项 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| 算法 | HS256 | `SignatureAlgorithm.HS256` | ✅ 一致 |
-| Secret | 环境变量 `JWT_SECRET`，默认 `haikulou-dev-secret-key` | `getSecret()` 读环境变量，fallback DEFAULT_SECRET | ✅ 一致 |
-| 有效期 | 24 小时（86400 秒） | `EXPIRATION_MS=24*60*60*1000`, `EXPIRATION_SECONDS=86400` | ✅ 一致 |
-| Claims | userId, username, exp | `.claim("userId",..).claim("username",..).setExpiration(..)` | ✅ 一致 |
-| `generateToken(userId, username)` | 签发 JWT | builder + compact | ✅ 一致 |
-| `parseToken(token)` | 解析 JWT，无效抛异常 | `Jwts.parser().setSigningKey().parseClaimsJws()` | ✅ 一致 |
-| `isExpired(token)` | 判断是否过期 | parseToken + getExpiration().before(now) | ✅ 一致 |
+### A1 源文件格式
 
-#### 可读性检查
+| ID | 规则 | 结论 |
+|----|------|------|
+| A1.1 | 文件名 = 顶层类名 + `.java` | ✅ 全部符合 |
+| A1.2 | 编码 UTF-8 | ✅ pom.xml 已配置 `project.build.sourceEncoding=UTF-8` |
+| A1.3 | 空白仅允许 ASCII 空格和换行，禁止 Tab | ✅ 全部使用 4 空格缩进 |
 
-- ✅ 工具类 `final` + 私有构造函数，禁止实例化
-- ✅ Javadoc 完整，标注环境变量名与生产警告
+### A2 源文件结构
 
-#### 可靠性检查
+| ID | 规则 | 结论 |
+|----|------|------|
+| A2.1 | 文件顺序：package → import → 顶层类 | ✅ 全部符合 |
+| A2.2 | 禁止 `import *` | ✅ 无通配符引入 |
+| A2.3 | import 分静态/非静态两组 | ⚠️ P2 — 无静态 import，未体现分组（不影响功能） |
+| A2.4 | 组内按字典序排列 | ✅ 基本符合 |
 
-- ⚠️ **Major-2**：生产环境未设置 `JWT_SECRET` 环境变量时，静默使用硬编码默认密钥 `haikulou-dev-secret-key`。design.md 6.1 标注"JWT Secret 环境变量注入，禁止硬编码到代码仓库"为 P0，代码中 DEFAULT_SECRET 存在于源码仓库。虽然 design.md 5.2.3 自身允许"默认值仅限开发"，但缺少生产环境 fail-fast 保护（如启动时检测环境并拒绝使用默认值）。
-  - 建议：增加启动检查，生产 profile 下未配置 `JWT_SECRET` 时抛异常拒绝启动
-- ⚠️ **Major-3**：默认密钥 `haikulou-dev-secret-key` 为 23 字节（184 bit），低于 HS256 推荐的最低 256 bit（32 字节）密钥长度。jjwt 0.9.1 不强制校验密钥长度，但存在弱密钥隐患。
-  - 建议：默认密钥补充至 32+ 字节，或使用 `Keys.secretKeyFor(SignatureAlgorithm.HS256)` 生成
+### A3 代码样式
 
----
+| ID | 规则 | 结论 |
+|----|------|------|
+| A3.1 | K&R 大括号 | ✅ 全部符合 |
+| A3.3 | 缩进 4 空格 | ✅ 全部符合 |
+| A3.4 | 行宽 ≤ 120 字符 | ✅ 全部符合 |
+| A3.6 | 类成员之间空行 | ✅ 全部符合 |
 
-### 2.5 [haikulou1.github.io] User.java
+### A4 命名规范
 
-#### 功能核对（对照 design.md Step 5.2.1）
+| ID | 规则 | 结论 |
+|----|------|------|
+| A4.1 | 包名全小写 | ✅ `cn.haikulou.auth` |
+| A4.2 | 类名 UpperCamelCase | ✅ |
+| A4.3 | 方法名 lowerCamelCase | ✅ |
+| A4.4 | 常量 UPPER_SNAKE_CASE | ✅ `CODE_SUCCESS`, `BEARER_PREFIX` 等 |
 
-| 字段 | Java 类型 | DB 字段 | 实现情况 | 结论 |
-|------|----------|---------|---------|------|
-| id | Long | id | `Long id` + getter/setter | ✅ 一致 |
-| username | String | username | `String username` | ✅ 一致 |
-| passwordHash | String | password_hash | `String passwordHash` | ✅ 一致 |
-| nickname | String | nickname | `String nickname` | ✅ 一致 |
-| createdAt | Timestamp | created_at | `Timestamp createdAt` | ✅ 一致 |
+### A5 注释规范
 
-#### 可读性检查
+| ID | 规则 | 结论 |
+|----|------|------|
+| A5.1 | 公共 API 有 Javadoc | ✅ 工厂方法、Servlet 路由均有 Javadoc |
+| A5.2 | 注释有意义，无废话注释 | ✅ |
 
-- ✅ Javadoc 宇标注 DB 字段下划线命名与 Java 大驼峰映射规则
-- ✅ `fromResultSet` 工厂方法封装列读取
-- ✅ `toString()` 不输出 passwordHash，避免日志泄露敏感字段
+### 可读性总结
 
-#### 可靠性检查
-
-- ✅ 无异常风险点，纯数据载体
-
----
-
-### 2.6 [haikulou1.github.io] UserInfo.java
-
-#### 功能核对
-
-- ✅ 视图对象，屏蔽 passwordHash，仅暴露 id/username/nickname
-- ✅ `fromUser(user)` 工厂方法含 null 防御
-- ✅ 与 design.md API-03 响应 `data.{id, username, nickname}` 字段一致
+可读性整体优秀。代码风格规范，分层清晰（Servlet → Service → Repository），Javadoc 覆盖率高。无 P1 可读性问题。
 
 ---
 
-### 2.7 [haikulou1.github.io] LoginResult.java
+## Step 4 — 可靠性 + 安全检查（产物 D）
 
-#### 功能核对
+### §4.1 Bug 模式（B/M/I 清单核销）
 
-- ✅ 承载 `token` + `expiresIn` + `user(UserInfo)`，与 design.md API-01 成功响应 `data.{token, expiresIn, user}` 一致
-- ✅ 与前端 login.js `onLoginSuccess(data)` 解析 `data.token`/`data.user.nickname` 对齐
+| 规则 ID | 等级 | 文件:行号 | 描述 | 判定 |
+|---------|------|-----------|------|------|
+| I004 | P2 (Info) | `JwtUtil.java:89` | 使用 `java.util.Date` 而非 `java.time` 新日期 API | ✅ 确认 |
 
----
+### §4.2 可靠性检查（G1–G17）
 
-### 2.8 [haikulou1.github.io] ApiResponse.java
+#### ❌ Blocker #1：H2 内存数据库生命周期缺陷 — `UserRepository.java:25`
 
-#### 功能核对
+```java
+// UserRepository.java:25
+private static final String JDBC_URL = "jdbc:h2:mem:authdb";
+```
 
-- ✅ 泛型封装 `{code, message, data}`，与 design.md Step 5.2.5 一致
-- ✅ `success(data)` → code=0, message="success"
-- ✅ `error(code, message)` → data=null
-- ✅ 前端 login.js 判断 `result.body.code === CODE_SUCCESS(0)` 对齐
+**问题**：H2 内存数据库默认行为是「最后一个连接关闭时销毁数据库」。`UserRepository` 所有方法均使用 `try-with-resources` 管理连接，每次查询后连接立即关闭：
 
----
+1. `initDefaultUser()` 打开连接 → 建表 + 插入默认用户 → **关闭连接 → 数据库被销毁**
+2. `initialized` 标志已设为 `true`，后续不再重新初始化
+3. `findByUsername()` 打开新连接 → **空数据库** → `SELECT ... FROM user` 抛出 `SQLException`（表不存在）
+4. 异常被捕获返回 `null` → **登录永远失败**
 
-### 2.9 [haikulou1.github.io] CorsFilter.java
+**影响**：应用首次初始化后，所有后续登录请求都会因数据库被销毁而失败。这是**功能性阻断缺陷**。
 
-#### 功能核对（对照 design.md Step 4.4）
+**修复建议**：
+```java
+// 方案 1（推荐）：添加 DB_CLOSE_DELAY=-1 保持数据库存活
+private static final String JDBC_URL = "jdbc:h2:mem:authdb;DB_CLOSE_DELAY=-1";
 
-| 响应头 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| Allow-Origin | 开发期 `*` | `"*"` | ✅ 一致 |
-| Allow-Methods | `GET, POST, OPTIONS` | `"GET, POST, OPTIONS"` | ✅ 一致 |
-| Allow-Headers | `Content-Type, Authorization` | `"Content-Type, Authorization"` | ✅ 一致 |
-| Allow-Credentials | `true` | `"true"` | ⚠️ 见 Major-4 |
-| OPTIONS 预检 | 返回 204 | `SC_NO_CONTENT` + return | ✅ 一致 |
+// 方案 2：使用连接池（如 HikariCP）保持常驻连接
+```
 
-#### 可靠性检查
-
-- ⚠️ **Major-4**：`Access-Control-Allow-Origin: *` 与 `Access-Control-Allow-Credentials: true` 同时设置，违反 CORS 规范（浏览器要求 Allow-Credentials=true 时 Allow-Origin 不得为 `*`）。当前前端 fetch 未设置 `credentials: 'include'`（默认 same-origin），不携带 Cookie，因此实际不受影响。但此配置组合在语义上矛盾，若后续引入 Cookie 认证会触发浏览器拦截。
-  - 建议：开发期移除 `Allow-Credentials` 或改为动态回显 Origin；生产期改为白名单 Origin + `Allow-Credentials: true`
-
----
-
-### 2.10 [haikulou1.github.io] CurrentUserServlet.java
-
-#### 功能核对（对照 design.md API-03）
-
-| 契约项 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| 路由 | `GET /api/user/current` | web.xml 映射 + doGet | ✅ 一致 |
-| 认证 | `Authorization: Bearer <token>` | extractToken 解析 Bearer 前缀 | ✅ 一致 |
-| 未认证 | HTTP 401 + code=40100 | `SC_UNAUTHORIZED` + `CODE_UNAUTHORIZED=40100` | ✅ 一致 |
-| 成功响应 | `ApiResponse.success(UserInfo)` | `ApiResponse.success(userInfo)` | ✅ 一致 |
-
-#### 可靠性检查
-
-- ✅ token null 防御 + userInfo null 防御，双层校验
-- ✅ extractToken 处理 header null 与前缀不匹配
+**等级**：P0 (Blocker) — 功能阻断
 
 ---
 
-### 2.11 [haikulou1.github.io] LogoutServlet.java
+#### ❌ Blocker #2：G16.2 CatchWithoutLogging — `AuthService.java:54-61`
 
-#### 功能核对（对照 design.md API-02）
+```java
+// AuthService.java:54-61
+public boolean verifyToken(String token) {
+    try {
+        Claims claims = JwtUtil.parseToken(token);
+        return !JwtUtil.isExpired(token);
+    } catch (Exception e) {
+        return false;  // ← 吞没异常，无日志记录
+    }
+}
+```
 
-| 契约项 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| 路由 | `POST /api/logout` | web.xml 映射 + doPost | ✅ 一致 |
-| 认证 | `Authorization: Bearer <token>` | extractToken + verifyToken | ✅ 一致 |
-| 未认证 | HTTP 401 + code=40100 | `SC_UNAUTHORIZED` + `CODE_UNAUTHORIZED=40100` | ✅ 一致 |
-| 成功响应 | `ApiResponse.success(null)` | `ApiResponse.success(null)` | ✅ 一致 |
+**问题**：`verifyToken` 捕获 `Exception` 后直接返回 `false`，不记录任何日志。Token 解析失败可能是密钥变更、Token 篡改等安全事件，无日志导致无法排查。此外 `Claims claims` 声明后未使用，`isExpired(token)` 内部重复调用 `parseToken`，同一 token 被解析两次（冗余）。
 
-#### 可靠性检查
+**修复建议**：
+```java
+public boolean verifyToken(String token) {
+    try {
+        JwtUtil.parseToken(token);  // parseToken 已校验签名+过期
+        return true;
+    } catch (Exception e) {
+        LOG.log(Level.WARNING, "Token 验证失败: {0}", e.getMessage());
+        return false;
+    }
+}
+```
 
-- ✅ token null 防御 + verifyToken 校验，双重保障
-
----
-
-### 2.12 [haikulou1.github.io] pom.xml
-
-#### 功能核对（对照 design.md Step 5.2.7）
-
-| 依赖 | 设计要求 | 实现情况 | 结论 |
-|------|---------|---------|------|
-| javax.servlet-api | 3.1.0 (provided) | 3.1.0 (provided) | ✅ 一致 |
-| gson | 2.10.1 | 2.10.1 | ✅ 一致 |
-| jbcrypt | 0.4 | 0.4 | ✅ 一致 |
-| jjwt | 0.9.1 | 0.9.1 | ✅ 一致 |
-| h2 | 2.2.224 | 2.2.224 | ✅ 一致 |
-| junit | 4.13.2 (test) | 4.13.2 (test) | ✅ 一致 |
-| Java 编译目标 | 1.8 | `maven.compiler.source/target=1.8` | ✅ 一致 |
-| packaging | war | `<packaging>war</packaging>` | ✅ 一致 |
-
----
-
-### 2.13 [haikulou1.github.io] web.xml
-
-#### 功能核对
-
-| 映射项 | 设计要求 | 实现情况 | 结论 |
-|--------|---------|---------|------|
-| CorsFilter | `/*` | `<url-pattern>/*</url-pattern>` | ✅ 一致 |
-| LoginServlet | `/api/login` | `/api/login` | ✅ 一致 |
-| LogoutServlet | `/api/logout` | `/api/logout` | ✅ 一致 |
-| CurrentUserServlet | `/api/user/current` | `/api/user/current` | ✅ 一致 |
-| web-app version | — | 3.1 | ✅ 合理 |
+**等级**：P0 (Blocker) — G16.2
 
 ---
 
-### 2.14 [leecode] index.html
+#### ❌ Blocker #3：G16.2 CatchWithoutLogging — `AuthService.java:69-81`
 
-#### 功能核对（对照 design.md Step 5.1.1）
+```java
+// AuthService.java:69-81
+public UserInfo getCurrentUser(String token) {
+    try {
+        Claims claims = JwtUtil.parseToken(token);
+        Long userId = claims.get("userId", Long.class);
+        if (userId == null) { return null; }
+        User user = userRepository.findById(userId);
+        return UserInfo.fromUser(user);
+    } catch (Exception e) {
+        return null;  // ← 吞没异常，无日志记录
+    }
+}
+```
 
-| 元素 | 设计要求 | 实现情况 | 结论 |
-|------|---------|---------|------|
-| 用户名输入框 | `<input type="text" id="username">` | `type="text" id="username" maxlength="32" required` | ✅ 一致 |
-| 密码输入框 | `<input type="password" id="password">` | `type="password" id="password" maxlength="64" required` | ✅ 一致 |
-| 登录按钮 | `<button id="loginBtn">登录</button>` | `id="loginBtn"` + btn-text/btn-loading | ✅ 一致 |
-| 错误提示区 | `<div id="errorMsg">` | `id="errorMsg" role="alert"` | ✅ 一致 |
-| 加载指示器 | — | `<span class="btn-loading" hidden>登录中...</span>` | ✅ 一致 |
-| 回车提交 | 绑定 keypress | form submit 事件天然支持回车 | ✅ 更优 |
-| autocomplete | — | `username`/`current-password` | ✅ 合理 |
-| novalidate | — | `novalidate` 属性 | ✅ 自定义校验 |
+**问题**：`getCurrentUser` 同样吞没异常。`userRepository.findById(userId)` 内部的 SQLException 已被 Repository 层捕获并记录，但 JWT 解析异常在此被静默吞没，安全事件无法追踪。
 
----
+**修复建议**：
+```java
+} catch (Exception e) {
+    LOG.log(Level.WARNING, "获取当前用户失败: {0}", e.getMessage());
+    return null;
+}
+```
 
-### 2.15 [leecode] login.css
-
-#### 功能核对
-
-- ✅ 居中卡片式布局（flexbox），与 design.md 5.1.2 一致
-- ✅ 响应式适配 `@media (max-width: 480px)`
-- ✅ 加载状态样式（btn-loading）
-
----
-
-### 2.16 [leecode] login.js
-
-#### 功能核对（对照 design.md Step 5.1.3）
-
-| 函数 | 设计要求 | 实现情况 | 结论 |
-|------|---------|---------|------|
-| `handleLogin()` | 获取输入 → 校验 → sendLoginRequest | trim → validateInput → sendLoginRequest | ✅ 一致 |
-| `validateInput(username, password)` | 非空 + 长度校验 | 空值 + 3-32 + 6-64 | ✅ 一致 |
-| `sendLoginRequest(username, password)` | fetch POST /api/login | fetch + JSON.stringify | ✅ 一致 |
-| `onLoginSuccess(data)` | 存储 Token + 提示 | localStorage.setItem + textContent | ✅ 一致 |
-| `onLoginError(message)` | 展示错误 | showError(message) | ✅ 一致 |
-| `getToken()` | 从 localStorage 读取 | localStorage.getItem | ✅ 一致 |
-| `logout()` | 调用 /api/logout + 清除 Token | fetch POST + removeItem | ✅ 一致 |
-| API_BASE | `http://localhost:8080` | `const API_BASE = 'http://localhost:8080'` | ✅ 一致 |
-| CODE_SUCCESS | 0 | `const CODE_SUCCESS = 0` | ✅ 一致 |
-| CODE_AUTH_FAILED | 40101 | `const CODE_AUTH_FAILED = 40101` | ✅ 一致 |
-| XSS 防护 | textContent | `errorMsgDiv.textContent = message` | ✅ 一致 |
-| 重复提交防护 | 按钮禁用 | `setLoading(true/false)` + `loginBtn.disabled` | ✅ 一致 |
-
-#### 可靠性检查
-
-- ✅ fetch catch 处理网络异常，finally 恢复 loading 状态
-- ✅ response.json() reject 时（非 JSON 响应体）进入 catch
-- ✅ onLoginSuccess 中 nickname fallback：`user.nickname || user.username || '用户'`
-- ✅ logout 网络异常时仍清除本地 Token（无状态模式降级）
-- ⚠️ **Minor-5**：`logout()` 函数已实现但 index.html 无登出按钮 UI 入口。design.md R-05（登出功能）为 P1 优先级，后端接口已就绪但前端缺少触发入口。建议后续迭代补充登出按钮。
-- ⚠️ **Minor-6**：`btnText`/`btnLoading` 在脚本顶层通过 `querySelector` 获取（第25-26行），依赖 script 位于 body 末尾保证 DOM 已解析。当前 index.html 确实将 `<script>` 置于 `</body>` 前，无问题。但若未来调整 script 位置可能引入 NPE。建议使用 `DOMContentLoaded` 或在函数内获取。
+**等级**：P0 (Blocker) — G16.2
 
 ---
 
-## 三、跨仓对齐点检查
+#### ❌ Blocker #4：G16.2 CatchWithoutLogging — `JwtUtil.java:86-93`
 
-| # | 对齐点 | 前端（leecode） | 后端（haikulou1.github.io） | 结论 |
-|---|--------|---------------|---------------------------|------|
+```java
+// JwtUtil.java:86-93
+public static boolean isExpired(String token) {
+    try {
+        Claims claims = parseToken(token);
+        return claims.getExpiration().before(new Date());
+    } catch (Exception e) {
+        return true;  // ← 吞没异常，无日志记录
+    }
+}
+```
+
+**问题**：`isExpired` 将所有异常（包括签名无效、格式错误）归类为"已过期"，且不记录日志。无法区分 Token 过期与 Token 伪造，安全审计盲区。此外使用 `java.util.Date`（I004 P2）。
+
+**修复建议**：添加 `Logger` 并记录异常级别信息；考虑使用 `java.time.Instant` 替代 `Date`。
+
+**等级**：P0 (Blocker) — G16.2
+
+---
+
+### §4.3 安全检查（S1–S10）
+
+#### ⚠️ Major #1：S10.2 CorsWildcard — `CorsFilter.java:33-36`
+
+```java
+// CorsFilter.java:33-36
+httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+```
+
+**问题**：`Allow-Origin: *` 与 `Allow-Credentials: true` 同时设置违反 CORS 规范——浏览器会拒绝携带凭据的跨域请求。当前使用 Bearer Token（非 Cookie），`Allow-Credentials: true` 无实际意义且产生误导。
+
+**修复建议**：移除 `Allow-Credentials` 头，或生产环境将 `*` 替换为具体前端域名。
+
+**等级**：P1 (Major) — S10.2
+
+---
+
+#### ⚠️ Major #2：初始化失败即标记已初始化 — `UserRepository.java:68-72`
+
+```java
+// UserRepository.java:68-72
+} catch (SQLException e) {
+    LOG.log(Level.WARNING, "默认用户初始化跳过（可能已存在）: {0}", e.getMessage());
+    initialized = true;  // ← 无论失败原因都标记为已初始化
+}
+```
+
+**问题**：`catch` 块假设所有 SQLException 都是"表已存在"，但实际可能是数据库连接失败、磁盘满等严重错误。一旦标记 `initialized = true`，系统永不重试，导致应用处于不可恢复的损坏状态。
+
+**修复建议**：区分错误类型，仅在确认"表/用户已存在"时标记 `initialized = true`；其他错误应保持 `false` 允许重试。
+
+**等级**：P1 (Major)
+
+---
+
+#### ⚠️ Major #3：JWT Secret 硬编码 — `JwtUtil.java:22`
+
+```java
+// JwtUtil.java:22（设计文档记录默认值为 haikulou-dev-secret-key）
+private static final String DEFAULT_SECRET = "haikulou-dev-secret-key";
+```
+
+**问题**：JWT Secret 以明文硬编码在源码中。生产环境若忘记设置 `JWT_SECRET` 环境变量，将使用此弱密钥，攻击者可伪造任意 Token。此外该密钥仅 23 字节（184 bit），低于 HS256 推荐的最低 256 bit（32 字节）。
+
+**修复建议**：移除默认值，未配置环境变量时直接抛出异常拒绝启动（fail-fast）；或至少补充至 32+ 字节。
+
+**等级**：P1 (Major) — 安全
+
+---
+
+### §4.4 安全检查汇总
+
+| ID | 检查项 | 结论 |
+|----|--------|------|
+| S1 SQL 注入 | ✅ 全部使用 `PreparedStatement` 参数化查询 |
+| S2 XSS | ✅ 前端使用 `textContent` 而非 `innerHTML` |
+| S3 密码泄露 | ✅ `User.toString()` 不含 `passwordHash`；`UserInfo` 屏蔽敏感字段 |
+| S4 CSRF | ✅ Token 模式（非 Cookie），天然免疫 CSRF |
+| S5 密钥泄露 | ⚠️ Major #3 — JWT Secret 硬编码 |
+| S6 输入校验 | ✅ `LoginServlet` 有用户名正则 + 密码长度校验 |
+| S7 认证/授权 | ✅ `CurrentUserServlet`/`LogoutServlet` 校验 Bearer Token |
+| S8 依赖安全 | ✅ 依赖版本合理（jjwt 0.9.1, gson 2.10.1, h2 2.2.224） |
+| S9 日志安全 | ✅ 日志不记录密码明文 |
+| S10 CORS/跳转 | ⚠️ Major #1 — CORS 通配符 + Credentials |
+
+---
+
+## Step 5 — 扩展检查
+
+### §5.1 跨仓接口契约对齐
+
+| # | 对齐点 | 前端（leecode） | 后端（haikulou） | 状态 |
+|---|--------|----------------|-----------------|------|
 | 1 | 请求路径 | `API_BASE + '/api/login'` | web.xml `/api/login` | ✅ 一致 |
 | 2 | 请求方法 | `method: 'POST'` | LoginServlet.doPost | ✅ 一致 |
 | 3 | 请求体字段 | `{username, password}` | LoginRequest.{username, password} | ✅ 一致 |
-| 4 | Content-Type | `'application/json'` | Gson JSON 解析 | ✅ 一致 |
+| 4 | Content-Type | `application/json` | Gson JSON 解析 | ✅ 一致 |
 | 5 | 成功判断 | `data.code === 0` | `ApiResponse.success` → code=0 | ✅ 一致 |
 | 6 | Token 字段 | `data.token` | LoginResult.token | ✅ 一致 |
 | 7 | expiresIn 字段 | `data.expiresIn` | LoginResult.expiresIn | ✅ 一致 |
@@ -380,82 +352,66 @@
 | 14 | 端口 | `localhost:8080` | Tomcat 开发端口 8080 | ✅ 一致 |
 | 15 | CORS | fetch 跨域请求 | CorsFilter `/*` | ✅ 一致 |
 
-> **跨仓对齐结论**：15 项对齐点全部一致，前后端接口契约完全匹配，无字段名/类型/路径偏差。
+**跨仓契约结论**：15 项对齐点全部一致，前后端接口契约完全匹配，无字段名/类型/路径偏差。
+
+### §5.2 P2 Info 级建议
+
+| # | 文件 | 建议 | 等级 |
+|---|------|------|------|
+| 1 | `login.js:120` | JWT 存储在 `localStorage`，存在 XSS 窃取风险。系分文档已标注为 MVP 权衡，建议后续迁移至 HttpOnly Cookie | P2 |
+| 2 | `UserRepository.java:59` | 默认密码 `123456` 硬编码在源码中。MVP 测试用例可接受，生产环境应移除 | P2 |
+| 3 | `CurrentUserServlet.java` + `LogoutServlet.java` | `extractToken()` 方法在两个 Servlet 中重复实现，违反 DRY 原则。建议提取至公共基类或工具类 | P2 |
+| 4 | `LoginServlet.java:92-100` | `parseRequestBody` 未限制请求体大小，可被大 Body DoS 攻击。建议添加 `Content-Length` 检查 | P2 |
+| 5 | `JwtUtil.java:89` | 使用 `java.util.Date` 而非 `java.time.Instant`，I004 规则建议使用新日期 API | P2 |
+| 6 | `login.js` | `logout()` 已实现但 index.html 无登出按钮 UI 入口。建议后续迭代补充 | P2 |
+
+### §5.3 设计文档与实现一致性
+
+| 检查项 | 系分设计 | 代码实现 | 状态 |
+|--------|---------|---------|------|
+| API-01 登录 | `POST /api/login` | `LoginServlet` 映射 `/api/login` | ✅ |
+| API-02 登出 | `POST /api/logout` | `LogoutServlet` 映射 `/api/logout` | ✅ |
+| API-03 当前用户 | `GET /api/user/current` | `CurrentUserServlet` 映射 `/api/user/current` | ✅ |
+| 密码哈希 | BCrypt salt rounds=10 | `BCrypt.gensalt(10)` | ✅ |
+| JWT 有效期 | 24h (86400s) | `EXPIRATION_MS = 24L*60*60*1000`, `EXPIRATION_SECONDS = 86400L` | ✅ |
+| 错误码表 | 0/40001/40100/40101/50000 | 代码中常量与系分一致 | ✅ |
+| 前端模块 | index.html + login.css + login.js | 三文件均已实现 | ✅ |
+| 后端分层 | Servlet→Service→Repository | 代码分层与设计一致 | ✅ |
 
 ---
 
-## 四、问题汇总
+## Blocker 汇总
 
-### 4.1 Blocker（阻断级）
+| # | 等级 | 规则 ID | 文件:行号 | 问题摘要 | 修复建议 |
+|---|------|---------|-----------|---------|---------|
+| 1 | P0 | H2生命周期 | `UserRepository.java:25` | H2 内存库在连接关闭后被销毁，登录首次后永久失败 | JDBC URL 添加 `;DB_CLOSE_DELAY=-1` |
+| 2 | P0 | G16.2 | `AuthService.java:58` | `verifyToken` catch 块无日志，且存在冗余解析 | 添加 `LOG.log(Level.WARNING, ...)`，简化为单次 parseToken |
+| 3 | P0 | G16.2 | `AuthService.java:78` | `getCurrentUser` catch 块无日志 | 添加 `LOG.log(Level.WARNING, ...)` |
+| 4 | P0 | G16.2 | `JwtUtil.java:90` | `isExpired` catch 块无日志，无法区分过期与伪造 | 添加 Logger 并记录异常级别信息 |
 
-**数量：0**
-
-本次评审未发现阻断级问题。代码功能完整、安全基线达标（BCrypt 哈希存储、PreparedStatement 参数化查询、textContent 防 XSS、JWT 签名验证），无编译阻断、无安全漏洞级别的硬编码密码、无资源泄漏。
-
-### 4.2 Major（重要级）
-
-| # | 文件 | 问题描述 | 建议 |
-|---|------|---------|------|
-| Major-1 | AuthService.java | `verifyToken` 中 `Claims claims = parseToken(token)` 声明后未使用，`isExpired(token)` 内部重复解析同一 token，存在冗余 | 简化为 `try { JwtUtil.parseToken(token); return true; } catch(Exception e) { return false; }`，parseToken 已校验签名+过期 |
-| Major-2 | JwtUtil.java | 生产环境未设 `JWT_SECRET` 时静默使用硬编码默认密钥，缺少 fail-fast 保护 | 增加启动检查：生产 profile 下未配置环境变量时拒绝启动 |
-| Major-3 | JwtUtil.java | 默认密钥 `haikulou-dev-secret-key`（23 字节/184bit）低于 HS256 推荐 256bit 最低长度 | 补充至 32+ 字节或使用 `Keys.secretKeyFor(HS256)` 生成 |
-| Major-4 | CorsFilter.java | `Allow-Origin: *` 与 `Allow-Credentials: true` 同时设置，违反 CORS 规范 | 移除 Allow-Credentials 或改为动态回显 Origin；当前 fetch 未用 credentials 故实际无影响 |
-
-### 4.3 Minor（轻微级）
-
-| # | 文件 | 问题描述 | 建议 |
-|---|------|---------|------|
-| Minor-1 | LoginServlet.java | `PrintWriter out = response.getWriter()` 在 try 块外获取 | 属 Servlet 标准模式，影响低，可选移入 try 内 |
-| Minor-2 | LoginServlet.java | design.md flowchart 提及 Content-Type 检查，代码未实现 | Gson 容错可接受，可选补充 Content-Type 校验 |
-| Minor-3 | AuthService.java | `getCurrentUser` catch 块无日志记录 | 补充 `LOG.log(Level.WARNING, "获取当前用户失败", e)` |
-| Minor-4 | UserRepository.java | `initDefaultUser` catch-all SQLException 后无条件设 initialized=true | 建议区分错误码后决定是否标记初始化 |
-| Minor-5 | login.js | `logout()` 已实现但无 UI 登出按钮入口 | 后续迭代补充登出按钮（R-05 P1） |
-| Minor-6 | login.js | `btnText`/`btnLoading` 顶层 querySelector 依赖 script 位置 | 可选改用 DOMContentLoaded 或函数内获取 |
+**blocker_count = 4**
 
 ---
 
-## 五、验收标准检查
+## 验收标准检查
 
 | AC编号 | 验收条件 | 实现情况 | 结论 |
 |--------|---------|---------|------|
 | AC-01 | 登录页面有用户名、密码输入框和登录按钮 | index.html 含 username/password input + loginBtn | ✅ |
-| AC-02 | 正确凭据登录成功 | LoginServlet → AuthService.login → BCrypt.checkpw → JWT | ✅ |
-| AC-03 | 错误凭据显示"用户名或密码错误" | code=40101 + 前端 onLoginError 展示 | ✅ |
+| AC-02 | 正确凭据登录成功 | LoginServlet → AuthService.login → BCrypt.checkpw → JWT | ❌ **因 Blocker #1 实际不可用** |
+| AC-03 | 错误凭据显示"用户名或密码错误" | code=40101 + 前端 onLoginError 展示 | ⚠️ 因 Blocker #1 所有登录均返回错误 |
 | AC-04 | 空用户名/密码前端拦截 | validateInput 非空校验 → 不发请求 | ✅ |
 | AC-05 | 密码 BCrypt 哈希存储 | UserRepository.initDefaultUser BCrypt.hashpw | ✅ |
-| AC-06 | 登录返回 Token，后续请求携带可识别 | LoginResult.token + Authorization Bearer | ✅ |
+| AC-06 | 登录返回 Token，后续请求携带可识别 | LoginResult.token + Authorization Bearer | ❌ **因 Blocker #1 实际不可用** |
 | AC-07 | 登出后清除状态 | logout() → localStorage.removeItem + 后端 logout | ✅ |
 
-> **验收结论**：7/7 验收标准全部达成。
+> **验收结论**：AC-02/AC-06 因 Blocker #1（H2 生命周期缺陷）实际不可用，修复后方可通过验收。
 
 ---
 
-## 六、评审结论
+## 审查署名
 
-### 6.1 总体评价
-
-本次登录功能跨仓实现**通过评审**。代码分层清晰（Servlet 接入层 → AuthService 业务层 → UserRepository 数据层），与 design.md 设计文档高度对齐，15 项跨仓接口契约全部一致，7 项验收标准全部达成。
-
-### 6.2 安全基线
-
-| 安全项 | 状态 |
-|--------|------|
-| 密码 BCrypt 哈希存储（salt=10） | ✅ 合规 |
-| SQL 注入防护（PreparedStatement） | ✅ 合规 |
-| XSS 防护（textContent） | ✅ 合规 |
-| JWT 签名验证 | ✅ 合规 |
-| 敏感字段屏蔽（UserInfo） | ✅ 合规 |
-| 日志不记录密码明文 | ✅ 合规 |
-| JWT Secret 环境变量注入 | ⚠️ 有默认值兜底，缺少生产 fail-fast（Major-2） |
-
-### 6.3 改进优先级
-
-| 优先级 | 数量 | 建议 |
-|--------|------|------|
-| Blocker | 0 | 无阻断，可合入 |
-| Major | 4 | 建议下一迭代修复（JwtUtil 密钥强化 + CorsFilter 配置修正 + AuthService 冗余清理） |
-| Minor | 6 | 可选改进，不影响功能 |
-
-### 6.4 合入建议
-
-**允许合入**。Blocker=0，功能完整且契约对齐。4 项 Major 问题均为非阻断性改进建议（JWT 密钥强度、CORS 配置语义、冗余解析），不影响当前 MVP 功能正确性，建议在下一迭代中修复。
+> 审查工具：dtazziboot-java-code-review (scan-all-rules.sh + LLM 逐文件复核)
+> 审查日期：2026-07-29
+> 审查范围：haikulou1.github.io `server/` 全部 13 文件 + leecode `web/login/` 全部 3 文件
+> scan-all-rules.sh 覆盖：52/222 规则，10 findings（6 误报排除，4 真实命中）
