@@ -7,12 +7,18 @@
  * - I1 统一响应体: callApi 解包 {code,message,data} 的 data 层
  * - I3 BASE_URL 环境自适应: localhost→开发，其他→生产域名
  * - I4 导出改 fetch+Blob: 可捕获 HTTP 错误状态码
+ *
+ * CR round2 修复（2026-07-30）：
+ * - B1 Blocker: callApi 正确解包 ApiResult.data 层（修复前返回整个 body 导致三 Tab 全失效）
+ * - M2: BASE_URL 支持运行时注入 window.ALGO_API_BASE_URL，避免硬编码占位符
  */
 
-// I3: 环境自适应——开发期用 localhost，生产期用实际后端域名
-const BASE_URL = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-    ? 'http://localhost:8080/api'
-    : 'https://algo-api.example.com/api'; // 生产环境部署时替换为实际域名
+// I3 + M2: 环境自适应——开发期用 localhost，生产期用实际后端域名
+// 部署时可在 index.html 中设置 window.ALGO_API_BASE_URL='https://your-api-domain/api' 注入实际域名
+const BASE_URL = window.ALGO_API_BASE_URL
+    || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        ? 'http://localhost:8080/api'
+        : 'https://algo-api.example.com/api'); // 占位符，部署时用 window.ALGO_API_BASE_URL 覆盖
 
 let currentTab = 'hello';
 
@@ -37,8 +43,10 @@ function switchTab(type, el) {
 
 /**
  * 通用 fetch 封装：5s 超时 + 错误兜底
- * 兼容两种响应：后端正常接口直接返回业务 JSON（如 {"result":"HelloWorld"}），
- * 异常时由 GlobalExceptionHandler 返回统一响应体 {code,message,data}。
+ * 后端所有接口统一返回 ApiResult {code,message,data}：
+ * - code=0 时解包 data 层返回，使调用方直接拿到业务数据（如 data.result / data.input）
+ * - code!=0 时视为业务错误，返回 {_error: message}
+ * - 网络异常/HTTP 错误码返回 {_error: 原因}，由调用方渲染红色提示
  */
 async function callApi(url) {
     const ctrl = new AbortController();
@@ -59,8 +67,9 @@ async function callApi(url) {
         if (body && typeof body.code === 'number' && body.code !== 0) {
             return { _error: body.message || ('错误码 ' + body.code) };
         }
-        // 正常业务 JSON（裸 Map 或 code=0 的统一体），原样返回
-        return body;
+        // B1: 统一响应体——解包 data 层，使调用方直接拿到业务数据
+        // 后端 AlgoController 所有接口均通过 ApiResult.ok(data) 包裹，data 字段必存在
+        return body.data !== undefined ? body.data : body;
     } catch (e) {
         return { _error: '接口请求失败：' + e.message + '（后端可能未启动）' };
     } finally {
