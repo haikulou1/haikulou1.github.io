@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Hello World / 哈希 / 冒泡排序</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: #f5f7fa; color: #333; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        h1 { text-align: center; margin-bottom: 24px; color: #2c3e50; }
+        .toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: opacity .2s; }
+        .btn:hover { opacity: .85; }
+        .btn-export { background: #27ae60; color: #fff; }
+        .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; }
+        .tab { padding: 12px 28px; cursor: pointer; border-bottom: 3px solid transparent; transition: all .2s; font-size: 15px; color: #7f8c8d; }
+        .tab.active { color: #2980b9; border-bottom-color: #2980b9; font-weight: 600; }
+        .tab:hover { color: #2980b9; }
+        .panel { display: none; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.08); padding: 24px; }
+        .panel.active { display: block; }
+        .result-card { background: #f8f9fa; border-left: 4px solid #2980b9; padding: 16px; margin-bottom: 12px; border-radius: 4px; }
+        .result-card .label { font-size: 13px; color: #95a5a6; margin-bottom: 4px; }
+        .result-card .value { font-size: 16px; color: #2c3e50; word-break: break-all; font-family: "Courier New", monospace; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        th { background: #ecf0f1; color: #2c3e50; font-size: 14px; }
+        td { font-family: "Courier New", monospace; font-size: 14px; word-break: break-all; }
+        .input-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+        .input-row input { flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn-run { background: #2980b9; color: #fff; }
+        .btn-run:disabled { background: #95a5a6; cursor: not-allowed; }
+        .status { font-size: 13px; color: #7f8c8d; margin-top: 8px; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Demo 演示中心</h1>
+
+    <div class="toolbar">
+        <button class="btn btn-export" onclick="exportCurrent()">⬇ 导出当前结果</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="helloworld" onclick="switchTab('helloworld')">Hello World</div>
+        <div class="tab" data-tab="hash" onclick="switchTab('hash')">哈希算法</div>
+        <div class="tab" data-tab="bubbleSort" onclick="switchTab('bubbleSort')">冒泡排序</div>
+    </div>
+
+    <!-- Hello World -->
+    <div class="panel active" id="panel-helloworld">
+        <button class="btn btn-run" onclick="loadHelloWorld()">执行 Hello World</button>
+        <div id="result-helloworld" class="status">点击按钮执行</div>
+    </div>
+
+    <!-- Hash -->
+    <div class="panel" id="panel-hash">
+        <div class="input-row">
+            <input type="text" id="hash-input" value="hello world" placeholder="输入待哈希文本">
+            <button class="btn btn-run" onclick="loadHash()">计算哈希</button>
+        </div>
+        <div id="result-hash" class="status">点击按钮执行</div>
+    </div>
+
+    <!-- Bubble Sort -->
+    <div class="panel" id="panel-bubbleSort">
+        <div class="input-row">
+            <input type="text" id="sort-input" value="5,3,8,1,9,2,7,4,6" placeholder="输入逗号分隔的数字">
+            <button class="btn btn-run" onclick="loadBubbleSort()">执行排序</button>
+        </div>
+        <div id="result-bubbleSort" class="status">点击按钮执行</div>
+    </div>
+</div>
+
+<script>
+    var API_BASE = 'http://localhost:8080/demo';
+    var currentTab = 'helloworld';
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab').forEach(function (t) {
+            t.classList.toggle('active', t.dataset.tab === tab);
+        });
+        document.querySelectorAll('.panel').forEach(function (p) {
+            p.classList.toggle('active', p.id === 'panel-' + tab);
+        });
+    }
+
+    function fetchJSON(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            try {
+                var data = JSON.parse(xhr.responseText);
+                callback(null, data);
+            } catch (e) {
+                callback(e, null);
+            }
+        };
+        xhr.send();
+    }
+
+    function loadHelloWorld() {
+        var box = document.getElementById('result-helloworld');
+        box.className = 'status';
+        box.textContent = '执行中...';
+        fetchJSON(API_BASE + '/helloworld', function (err, data) {
+            if (err || !data || data.code !== 200) {
+                box.className = 'status error';
+                box.textContent = '执行失败: ' + (data ? data.message : '请求异常');
+                return;
+            }
+            var vo = data.data;
+            box.innerHTML =
+                '<div class="result-card"><div class="label">Greeting</div><div class="value">' + vo.greeting + '</div></div>' +
+                '<div class="result-card"><div class="label">Timestamp</div><div class="value">' + vo.timestamp + '</div></div>';
+        });
+    }
+
+    function loadHash() {
+        var input = encodeURIComponent(document.getElementById('hash-input').value || 'hello world');
+        var box = document.getElementById('result-hash');
+        box.className = 'status';
+        box.textContent = '执行中...';
+        fetchJSON(API_BASE + '/hash?input=' + input, function (err, data) {
+            if (err || !data || data.code !== 200) {
+                box.className = 'status error';
+                box.textContent = '执行失败: ' + (data ? data.message : '请求异常');
+                return;
+            }
+            var vo = data.data;
+            var html = '<div class="result-card"><div class="label">Input</div><div class="value">' + vo.input + '</div></div>';
+            html += '<table><tr><th>算法</th><th>摘要</th></tr>';
+            vo.items.forEach(function (item) {
+                html += '<tr><td>' + item.algorithm + '</td><td>' + item.digest + '</td></tr>';
+            });
+            html += '</table>';
+            box.innerHTML = html;
+        });
+    }
+
+    function loadBubbleSort() {
+        var array = encodeURIComponent(document.getElementById('sort-input').value || '');
+        var url = API_BASE + '/bubbleSort' + (array ? '?array=' + array : '');
+        var box = document.getElementById('result-bubbleSort');
+        box.className = 'status';
+        box.textContent = '执行中...';
+        fetchJSON(url, function (err, data) {
+            if (err || !data || data.code !== 200) {
+                box.className = 'status error';
+                box.textContent = '执行失败: ' + (data ? data.message : '请求异常');
+                return;
+            }
+            var vo = data.data;
+            box.innerHTML =
+                '<div class="result-card"><div class="label">原始数组</div><div class="value">' + vo.original.join(', ') + '</div></div>' +
+                '<div class="result-card"><div class="label">排序结果</div><div class="value">' + vo.sorted.join(', ') + '</div></div>' +
+                '<div class="result-card"><div class="label">统计</div><div class="value">长度 ' + vo.size + ' · 比较 ' + vo.compareCount + ' 次 · 交换 ' + vo.swapCount + ' 次</div></div>';
+        });
+    }
+
+    function exportCurrent() {
+        window.open(API_BASE + '/export?type=' + currentTab, '_blank');
+    }
+</script>
+</body>
+</html>
