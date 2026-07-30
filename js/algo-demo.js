@@ -15,10 +15,12 @@
 
 // I3 + M2: 环境自适应——开发期用 localhost，生产期用实际后端域名
 // 部署时可在 index.html 中设置 window.ALGO_API_BASE_URL='https://your-api-domain/api' 注入实际域名
+// N7 提醒：生产环境部署【必须】设置 window.ALGO_API_BASE_URL，否则下方占位符域名
+//   'https://algo-api.example.com/api' 将被使用，导致接口全部不可用（占位符仅开发兜底）。
 const BASE_URL = window.ALGO_API_BASE_URL
     || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
         ? 'http://localhost:8080/api'
-        : 'https://algo-api.example.com/api'); // 占位符，部署时用 window.ALGO_API_BASE_URL 覆盖
+        : 'https://algo-api.example.com/api'); // 占位符，生产部署前必须用 window.ALGO_API_BASE_URL 覆盖
 
 let currentTab = 'hello';
 
@@ -138,6 +140,8 @@ async function callHello() {
  */
 async function callHash() {
     const input = document.getElementById('hash-input').value;
+    // N1 有意偏离：设计文档 clarify.md 写 POST+body，此处用 GET+query。
+    // 理由：hash 为只读计算，无副作用，GET+query 更符合 RESTful 语义且便于导出复用同一参数链路。
     const data = await callApi(BASE_URL + '/hash?input=' + encodeURIComponent(input));
     if (data._error) {
         renderError('result-hash', data._error);
@@ -157,6 +161,8 @@ async function callHash() {
  */
 async function callBubble() {
     const nums = document.getElementById('bubble-input').value;
+    // N1 有意偏离：设计文档 clarify.md 写 POST+body，此处用 GET+query。
+    // 理由：bubble 为只读排序，无副作用，GET+query 更符合 RESTful 语义且与导出参数链路一致。
     const data = await callApi(BASE_URL + '/bubble?nums=' + encodeURIComponent(nums));
     if (data._error) {
         renderError('result-bubble', data._error);
