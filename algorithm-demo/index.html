@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算法演示</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; color: #2c3e50; line-height: 1.6; }
+        .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        header h1 { font-size: 24px; }
+        .toolbar { display: flex; gap: 8px; }
+        .btn { padding: 8px 18px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all .2s; }
+        .btn-primary { background: #409eff; color: #fff; }
+        .btn-primary:hover { background: #66b1ff; }
+        .btn-export { background: #67c23a; color: #fff; }
+        .btn-export:hover { background: #85ce61; }
+        .tabs { display: flex; border-bottom: 2px solid #e4e7ed; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-size: 15px; color: #606266; transition: all .2s; background: none; border-top: none; border-left: none; border-right: none; }
+        .tab:hover { color: #409eff; }
+        .tab.active { color: #409eff; border-bottom-color: #409eff; font-weight: 600; }
+        .tab-content { display: none; background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+        .tab-content.active { display: block; }
+        .result-box { margin-top: 16px; padding: 16px; background: #f8f9fb; border: 1px solid #ebeef5; border-radius: 6px; min-height: 60px; word-break: break-all; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 14px; white-space: pre-wrap; }
+        .result-box.empty { color: #c0c4cc; font-style: italic; }
+        .field { margin-bottom: 12px; }
+        .field-label { display: inline-block; min-width: 90px; color: #909399; font-weight: 600; }
+        .field-value { color: #303133; }
+        .error { color: #f56c6c; }
+        .loading { color: #409eff; }
+        .hint { margin-top: 12px; color: #909399; font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>算法演示</h1>
+        <div class="toolbar">
+            <button class="btn btn-export" onclick="exportData()">📥 导出结果</button>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('helloworld')">HelloWorld</button>
+        <button class="tab" onclick="switchTab('hash')">哈希算法</button>
+        <button class="tab" onclick="switchTab('bubble')">冒泡排序</button>
+    </div>
+
+    <div id="tab-helloworld" class="tab-content active">
+        <button class="btn btn-primary" onclick="runHelloWorld()">▶ 执行</button>
+        <div class="result-box empty" id="result-helloworld">点击「执行」查看结果</div>
+    </div>
+
+    <div id="tab-hash" class="tab-content">
+        <div class="field">
+            <span class="field-label">输入文本：</span>
+            <input type="text" id="hash-input" placeholder="留空使用默认示例" style="padding:6px 10px;width:60%;border:1px solid #dcdfe6;border-radius:4px;">
+        </div>
+        <button class="btn btn-primary" onclick="runHash()">▶ 执行</button>
+        <div class="result-box empty" id="result-hash">点击「执行」查看结果</div>
+    </div>
+
+    <div id="tab-bubble" class="tab-content">
+        <button class="btn btn-primary" onclick="runBubble()">▶ 执行</button>
+        <div class="result-box empty" id="result-bubble">点击「执行」查看结果</div>
+    </div>
+
+    <p class="hint">提示：导出会下载包含三个 tab 结果的 txt 文件。请先启动后端服务（端口 8080）。</p>
+</div>
+
+<script>
+    // 后端服务地址，便于切换环境
+    const API_BASE = 'http://localhost:8080';
+
+    // ---- Tab 切换 ----
+    function switchTab(name) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    // ---- 工具 ----
+    function showLoading(id) {
+        const el = document.getElementById(id);
+        el.className = 'result-box loading';
+        el.textContent = '执行中...';
+    }
+    function showError(id, msg) {
+        const el = document.getElementById(id);
+        el.className = 'result-box error';
+        el.textContent = '错误：' + msg;
+    }
+    function showResult(id, html) {
+        const el = document.getElementById(id);
+        el.className = 'result-box';
+        el.innerHTML = html;
+    }
+    function field(label, value) {
+        return '<div class="field"><span class="field-label">' + label + '</span><span class="field-value">' + value + '</span></div>';
+    }
+
+    // ---- HelloWorld ----
+    async function runHelloWorld() {
+        showLoading('result-helloworld');
+        try {
+            const res = await fetch(API_BASE + '/api/helloworld');
+            const data = await res.json();
+            showResult('result-helloworld', field('result:', data.result));
+        } catch (e) {
+            showError('result-helloworld', e.message + '（请确认后端服务已启动）');
+        }
+    }
+
+    // ---- 哈希算法 ----
+    async function runHash() {
+        showLoading('result-hash');
+        const input = document.getElementById('hash-input').value;
+        let url = API_BASE + '/api/hash';
+        if (input) url += '?text=' + encodeURIComponent(input);
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            showResult('result-hash',
+                field('input:', data.input) +
+                field('md5:', data.md5) +
+                field('sha256:', data.sha256));
+        } catch (e) {
+            showError('result-hash', e.message + '（请确认后端服务已启动）');
+        }
+    }
+
+    // ---- 冒泡排序 ----
+    async function runBubble() {
+        showLoading('result-bubble');
+        try {
+            const res = await fetch(API_BASE + '/api/bubble');
+            const data = await res.json();
+            showResult('result-bubble',
+                field('原始数组:', data.original) +
+                field('排序结果:', data.sorted) +
+                field('交换步数:', data.steps) +
+                field('随机数组:', data.random) +
+                field('随机排序:', data.randomSorted) +
+                field('随机步数:', data.randomSteps));
+        } catch (e) {
+            showError('result-bubble', e.message + '（请确认后端服务已启动）');
+        }
+    }
+
+    // ---- 导出 ----
+    async function exportData() {
+        // 直接访问导出接口触发浏览器文件下载
+        window.location.href = API_BASE + '/api/export';
+    }
+</script>
+</body>
+</html>
