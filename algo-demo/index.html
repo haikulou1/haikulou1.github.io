@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算法演示</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+        h1 { text-align: center; padding: 20px; background: #4a90d9; color: #fff; font-size: 22px; }
+        .tabs { display: flex; border-bottom: 2px solid #e0e0e0; }
+        .tab { flex: 1; padding: 14px; text-align: center; cursor: pointer; font-size: 15px; color: #666; transition: all 0.2s; border-bottom: 3px solid transparent; }
+        .tab:hover { background: #f9f9f9; }
+        .tab.active { color: #4a90d9; border-bottom-color: #4a90d9; font-weight: 600; }
+        .content { padding: 30px; min-height: 300px; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .input-row { margin-bottom: 15px; }
+        .input-row label { display: inline-block; width: 100px; font-weight: 600; }
+        .input-row input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 300px; font-size: 14px; }
+        .btn { padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; margin-left: 10px; }
+        .btn-primary { background: #4a90d9; color: #fff; }
+        .btn-primary:hover { background: #357abd; }
+        .btn-export { background: #52c41a; color: #fff; float: right; }
+        .btn-export:hover { background: #45a818; }
+        .result { margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px; border: 1px solid #e0e0e0; min-height: 60px; font-size: 14px; line-height: 1.6; }
+        .result .label { color: #888; }
+        .result .value { color: #333; font-family: "Courier New", monospace; word-break: break-all; }
+        .error-msg { color: #f5222d; background: #fff1f0; border: 1px solid #ffa39e; padding: 12px; border-radius: 4px; }
+        .warning { color: #faad14; font-size: 13px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>算法演示</h1>
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('hello', this)">HelloWorld</div>
+            <div class="tab" onclick="switchTab('hash', this)">哈希算法</div>
+            <div class="tab" onclick="switchTab('bubble', this)">冒泡排序</div>
+        </div>
+        <div class="content">
+            <button class="btn btn-export" onclick="exportResult()">导出结果</button>
+            <div style="clear:both; margin-bottom: 15px;"></div>
+
+            <!-- HelloWorld -->
+            <div id="panel-hello" class="panel active">
+                <div class="input-row">
+                    <button class="btn btn-primary" onclick="callHello()">执行</button>
+                </div>
+                <div class="result" id="result-hello"></div>
+            </div>
+
+            <!-- 哈希算法 -->
+            <div id="panel-hash" class="panel">
+                <div class="input-row">
+                    <label>输入字符串：</label>
+                    <input type="text" id="hash-input" value="hello" placeholder="请输入字符串">
+                    <button class="btn btn-primary" onclick="callHash()">执行</button>
+                </div>
+                <div class="result" id="result-hash"></div>
+            </div>
+
+            <!-- 冒泡排序 -->
+            <div id="panel-bubble" class="panel">
+                <div class="input-row">
+                    <label>数字序列：</label>
+                    <input type="text" id="bubble-input" value="5,3,8,1,9,2" placeholder="逗号分隔，如 3,1,2">
+                    <button class="btn btn-primary" onclick="callBubble()">执行</button>
+                </div>
+                <div class="result" id="result-bubble"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/algo-demo.js"></script>
+</body>
+</html>
