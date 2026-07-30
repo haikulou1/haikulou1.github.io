@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系 HelloWorld</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; }
+        .nav { background: #2c3e50; padding: 16px 32px; display: flex; gap: 24px; }
+        .nav a { color: #ecf0f1; text-decoration: none; font-size: 16px; }
+        .nav a:hover { color: #3498db; }
+        .nav a.active { color: #3498db; font-weight: bold; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card { background: #fff; border-radius: 8px; padding: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 24px; }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        .contact-info { display: flex; flex-direction: column; gap: 12px; }
+        .contact-item { display: flex; align-items: center; gap: 12px; }
+        .contact-item .label { font-weight: bold; min-width: 80px; color: #666; }
+        .contact-item .value { color: #2c3e50; }
+        form { display: flex; flex-direction: column; gap: 16px; }
+        label { font-weight: bold; color: #555; font-size: 14px; }
+        input, textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%; }
+        textarea { min-height: 100px; resize: vertical; }
+        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        .status { margin-top: 12px; padding: 12px; border-radius: 4px; font-size: 14px; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.loading { background: #d1ecf1; color: #0c5460; }
+        .error-msg { color: #e74c3c; font-size: 12px; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="hello.html">首页</a>
+        <a href="about.html">关于</a>
+        <a href="contact.html" class="active">联系</a>
+    </nav>
+    <div class="container">
+        <!-- 联系信息卡片 -->
+        <div class="card">
+            <h1>联系我们</h1>
+            <div class="contact-info" id="contactInfo">
+                <div class="contact-item">
+                    <span class="label">邮箱：</span>
+                    <span class="value" id="contactEmail">加载中...</span>
+                </div>
+                <div class="contact-item">
+                    <span class="label">电话：</span>
+                    <span class="value" id="contactPhone">加载中...</span>
+                </div>
+                <div class="contact-item">
+                    <span class="label">地址：</span>
+                    <span class="value" id="contactAddress">加载中...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系表单卡片 -->
+        <div class="card">
+            <h1>留言表单</h1>
+            <form id="contactForm" onsubmit="submitForm(event)">
+                <div>
+                    <label for="name">姓名 *</label>
+                    <input type="text" id="name" name="name" required maxlength="64" placeholder="请输入您的姓名">
+                    <div class="error-msg" id="nameError"></div>
+                </div>
+                <div>
+                    <label for="email">邮箱 *</label>
+                    <input type="email" id="email" name="email" required maxlength="128" placeholder="请输入您的邮箱">
+                    <div class="error-msg" id="emailError"></div>
+                </div>
+                <div>
+                    <label for="message">留言 *</label>
+                    <textarea id="message" name="message" required maxlength="512" placeholder="请输入留言内容（1-512字符）"></textarea>
+                    <div class="error-msg" id="messageError"></div>
+                </div>
+                <button type="submit" id="submitBtn">提交</button>
+            </form>
+            <div class="status" id="submitStatus" style="display:none;"></div>
+        </div>
+    </div>
+    <script>
+        var API_BASE = 'http://localhost:8080';
+
+        // 加载联系信息（GET /api/contact）
+        function loadContact() {
+            fetch(API_BASE + '/api/contact')
+                .then(function(response) { return response.json(); })
+                .then(function(res) {
+                    if (res.code === 'OK' && res.data) {
+                        document.getElementById('contactEmail').textContent = res.data.email || '-';
+                        document.getElementById('contactPhone').textContent = res.data.phone || '-';
+                        document.getElementById('contactAddress').textContent = res.data.address || '-';
+                    } else {
+                        document.getElementById('contactEmail').textContent = 'contact@helloworld.demo';
+                        document.getElementById('contactPhone').textContent = '123-4567-8900';
+                        document.getElementById('contactAddress').textContent = '杭州市';
+                    }
+                })
+                .catch(function() {
+                    document.getElementById('contactEmail').textContent = 'contact@helloworld.demo';
+                    document.getElementById('contactPhone').textContent = '123-4567-8900';
+                    document.getElementById('contactAddress').textContent = '杭州市';
+                });
+        }
+
+        // 提交联系表单（POST /api/contact/submit）
+        function submitForm(event) {
+            event.preventDefault();
+            var statusEl = document.getElementById('submitStatus');
+            var submitBtn = document.getElementById('submitBtn');
+
+            // 清除错误提示
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('messageError').textContent = '';
+
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var message = document.getElementById('message').value.trim();
+
+            // 前端校验
+            var hasError = false;
+            if (!name || name.length > 64) {
+                document.getElementById('nameError').textContent = '姓名不能为空且不超过64字符';
+                hasError = true;
+            }
+            if (!email) {
+                document.getElementById('emailError').textContent = '邮箱不能为空';
+                hasError = true;
+            }
+            if (!message || message.length > 512) {
+                document.getElementById('messageError').textContent = '留言内容不能为空且不超过512字符';
+                hasError = true;
+            }
+            if (hasError) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+            statusEl.style.display = 'block';
+            statusEl.className = 'status loading';
+            statusEl.textContent = '正在提交...';
+
+            fetch(API_BASE + '/api/contact/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, email: email, message: message })
+            })
+                .then(function(response) { return response.json(); })
+                .then(function(res) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '提交';
+                    if (res.code === 'OK' && res.data) {
+                        statusEl.className = 'status success';
+                        statusEl.textContent = '提交成功！记录ID：' + res.data.id;
+                        document.getElementById('contactForm').reset();
+                    } else {
+                        statusEl.className = 'status error';
+                        statusEl.textContent = '提交失败：' + (res.msg || '未知错误') + '（错误码：' + res.code + '）';
+                    }
+                })
+                .catch(function(err) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '提交';
+                    statusEl.className = 'status error';
+                    statusEl.textContent = '请求失败：' + err.message;
+                });
+        }
+
+        window.onload = loadContact;
+    </script>
+</body>
+</html>
