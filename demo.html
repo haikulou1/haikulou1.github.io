@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>算法演示与导出平台</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/demo.css">
+</head>
+<body>
+  <div class="demo-page">
+    <header class="demo-header">
+      <h1 class="demo-title">算法演示与导出平台</h1>
+      <button id="exportBtn" class="demo-export-btn" type="button">导出当前结果</button>
+    </header>
+
+    <nav class="demo-tabs" role="tablist">
+      <button class="demo-tab active" data-tab="helloworld" role="tab" type="button">HelloWorld</button>
+      <button class="demo-tab" data-tab="hash" role="tab" type="button">哈希算法</button>
+      <button class="demo-tab" data-tab="bubble" role="tab" type="button">冒泡排序</button>
+    </nav>
+
+    <main class="demo-content">
+      <!-- Tab1 HelloWorld -->
+      <section class="demo-panel active" id="panel-helloworld" role="tabpanel">
+        <h2 class="demo-panel-title">HelloWorld</h2>
+        <div id="helloworldResult" class="demo-result-card">
+          <p class="demo-loading">加载中…</p>
+        </div>
+      </section>
+
+      <!-- Tab2 哈希算法 -->
+      <section class="demo-panel" id="panel-hash" role="tabpanel">
+        <h2 class="demo-panel-title">哈希算法</h2>
+        <div class="demo-form">
+          <label class="demo-label" for="hashInput">待哈希字符串</label>
+          <input id="hashInput" class="demo-input" type="text" value="hello" placeholder="请输入字符串（≤1024）">
+          <button id="hashExecBtn" class="demo-run-btn" type="button">执行</button>
+        </div>
+        <div id="hashResult" class="demo-result-card demo-result-empty">
+          <p class="demo-placeholder">点击「执行」查看哈希结果</p>
+        </div>
+      </section>
+
+      <!-- Tab3 冒泡排序 -->
+      <section class="demo-panel" id="panel-bubble" role="tabpanel">
+        <h2 class="demo-panel-title">冒泡排序</h2>
+        <div class="demo-form">
+          <label class="demo-label" for="bubbleInput">逗号分隔整数</label>
+          <input id="bubbleInput" class="demo-input" type="text" value="5,3,8,1" placeholder="如 5,3,8,1">
+          <button id="bubbleExecBtn" class="demo-run-btn" type="button">执行</button>
+        </div>
+        <div id="bubbleResult" class="demo-result-card demo-result-empty">
+          <p class="demo-placeholder">点击「执行」查看排序结果</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/demo.js" defer></script>
+</body>
+</html>
