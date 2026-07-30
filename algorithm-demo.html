@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算法演示</title>
+<link rel="stylesheet" href="css/algorithm-demo.css">
+</head>
+<body>
+<header class="demo-header">
+  <h1>算法演示</h1>
+  <button id="export-current-btn" class="btn btn-export">导出当前结果</button>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="helloworld">HelloWorld</button>
+  <button class="tab-btn" data-tab="hash">哈希算法</button>
+  <button class="tab-btn" data-tab="bubble-sort">冒泡排序</button>
+</nav>
+
+<main class="tab-content">
+  <section id="tab-helloworld" class="tab-panel active">
+    <p><button id="btn-helloworld" class="btn">执行 HelloWorld</button></p>
+    <div id="result-helloworld" class="result-card"></div>
+    <p><button class="btn btn-export-tab" data-type="helloworld">导出 HelloWorld 结果</button></p>
+  </section>
+
+  <section id="tab-hash" class="tab-panel">
+    <div class="form-row">
+      <label>输入 <input id="hash-input" type="text" placeholder="输入待哈希字符串" value="abc"></label>
+      <label>算法 <select id="hash-algo">
+        <option value="sha256">SHA-256</option>
+        <option value="md5">MD5</option>
+      </select></label>
+      <button id="btn-hash" class="btn">计算</button>
+    </div>
+    <div id="result-hash" class="result-card"></div>
+    <p><button class="btn btn-export-tab" data-type="hash">导出哈希结果</button></p>
+  </section>
+
+  <section id="tab-bubble-sort" class="tab-panel">
+    <p><button id="btn-bubble-sort" class="btn">生成并排序</button></p>
+    <div id="result-bubble-sort" class="result-card"></div>
+    <p><button class="btn btn-export-tab" data-type="bubble-sort">导出排序结果</button></p>
+  </section>
+</main>
+
+<script src="js/algorithm-demo.js"></script>
+</body>
+</html>
