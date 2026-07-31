@@ -155,6 +155,9 @@ const API_BASE = (typeof window !== 'undefined' && window.ALGO_API_BASE) || 'htt
       if (!Number.isFinite(n) || !Number.isInteger(n)) {
         throw new Error('存在非整数值：' + parts[i]);
       }
+      if (n > Number.MAX_SAFE_INTEGER || n < Number.MIN_SAFE_INTEGER) {
+        throw new Error('数值超出安全整数范围：' + parts[i]);
+      }
       arr.push(n);
     }
     return arr;
