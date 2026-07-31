@@ -429,13 +429,16 @@ NexT.utils = {
     var result = arr.slice();
     var length = result.length;
     for (var i = 0; i < length - 1; i++) {
+      var swapped = false;
       for (var j = 0; j < length - 1 - i; j++) {
         if (compare(result[j], result[j + 1]) > 0) {
           var temp = result[j];
           result[j] = result[j + 1];
           result[j + 1] = temp;
+          swapped = true;
         }
       }
+      if (!swapped) break;
     }
     return result;
   }
