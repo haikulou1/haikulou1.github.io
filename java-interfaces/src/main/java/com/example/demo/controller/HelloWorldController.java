@@ -15,6 +15,11 @@ import java.util.Map;
 @RequestMapping("/api")
 public class HelloWorldController {
 
+    /**
+     * 返回固定问候消息。
+     *
+     * @return 包含 {@code message} 字段的 JSON 响应体
+     */
     @GetMapping("/helloworld")
     public Map<String, String> helloWorld() {
         return Map.of("message", "Hello World");
