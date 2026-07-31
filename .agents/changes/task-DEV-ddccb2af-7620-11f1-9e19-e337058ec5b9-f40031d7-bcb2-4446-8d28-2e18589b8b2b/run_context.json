@@ -1,0 +1,15 @@
+{
+  "task_id": "task-DEV-ddccb2af-7620-11f1-9e19-e337058ec5b9-f40031d7-bcb2-4446-8d28-2e18589b8b2b",
+  "stage": "review",
+  "node": "代码评审",
+  "skill": "/code-review-skill",
+  "requirement": "写一个冒泡排序",
+  "reviewed_file": "js/utils.js",
+  "review_scope": "bubbleSort (L416-L445)",
+  "plan_reference": "docs/superpowers/plans/bubble-sort-implementation.md",
+  "blocker_count": 0,
+  "suggestion_count": 3,
+  "verdict": "pass",
+  "report_path": ".agents/20260731-写冒泡排序/cr_report.md",
+  "review_date": "2026-07-31"
+}
