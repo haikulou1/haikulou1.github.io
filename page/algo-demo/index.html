@@ -179,11 +179,12 @@
           <input type="text" id="hash-input" placeholder="输入待哈希文本，如 abc" autocomplete="off">
           <select id="hash-algo">
             <option value="SHA-256" selected>SHA-256</option>
-            <option value="MD5">MD5</option>
+            <option value="MD5">MD5（非安全用途）</option>
             <option value="SHA-512">SHA-512</option>
           </select>
           <button id="btn-hash" type="button">执行</button>
         </div>
+        <div class="hint">POST /api/hash — MD5 仅供演示，不可用于安全场景</div>
         <div class="result" id="result-hash"><span class="muted">点击「执行」查看哈希结果</span></div>
       </div>
     </div>
