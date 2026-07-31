@@ -411,5 +411,35 @@ NexT.utils = {
       script.src = url;
       document.head.appendChild(script);
     }
+  },
+
+  /**
+   * Bubble sort for an array. Returns a new sorted array without
+   * mutating the original. An optional comparator can be supplied;
+   * by default it sorts numbers in ascending order.
+   * @param {Array} arr - The array to sort.
+   * @param {Function} [comparator] - A function (a, b) => number.
+   * @returns {Array} A new sorted array.
+   */
+  bubbleSort: function(arr, comparator) {
+    if (!Array.isArray(arr)) throw new TypeError('Expected an array');
+    var compare = comparator || function(a, b) {
+      return a - b;
+    };
+    var result = arr.slice();
+    var length = result.length;
+    for (var i = 0; i < length - 1; i++) {
+      var swapped = false;
+      for (var j = 0; j < length - 1 - i; j++) {
+        if (compare(result[j], result[j + 1]) > 0) {
+          var temp = result[j];
+          result[j] = result[j + 1];
+          result[j + 1] = temp;
+          swapped = true;
+        }
+      }
+      if (!swapped) break;
+    }
+    return result;
   }
 };
