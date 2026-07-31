@@ -3,8 +3,8 @@
  * 调用后端 algo-demo 服务的四个接口，原生 fetch，无框架依赖。
  */
 
-// 后端地址常量（开发期 localhost:8080，部署时改为实际后端域名）
-const API_BASE = 'http://localhost:8080';
+// 后端地址（优先使用页面注入的全局配置，开发期回退 localhost:8080）
+const API_BASE = (typeof window !== 'undefined' && window.ALGO_API_BASE) || 'http://localhost:8080';
 
 (function () {
   'use strict';
@@ -102,6 +102,7 @@ const API_BASE = 'http://localhost:8080';
     setLoading(el, '请求中…');
     fetchJson(API_BASE + '/api/helloworld', { method: 'GET' })
       .then(function (data) {
+        lastResults.hello = data;
         clearResult(el);
         addField(el, 'result', data.result == null ? '' : data.result, 'ok');
         addField(el, 'timestamp', data.timestamp == null ? '' : data.timestamp);
@@ -130,6 +131,7 @@ const API_BASE = 'http://localhost:8080';
       body: JSON.stringify({ input: input, algorithm: algo })
     })
       .then(function (data) {
+        lastResults.hash = data;
         clearResult(el);
         addField(el, 'input', data.input == null ? '' : data.input);
         addField(el, 'algorithm', data.algorithm == null ? '' : data.algorithm);
@@ -176,6 +178,7 @@ const API_BASE = 'http://localhost:8080';
       body: JSON.stringify({ input: inputArr })
     })
       .then(function (data) {
+        lastResults.bubble = data;
         clearResult(el);
         addField(el, 'input', JSON.stringify(data.input == null ? inputArr : data.input));
         addField(el, 'sorted', JSON.stringify(data.sorted == null ? [] : data.sorted), 'ok');
@@ -219,18 +222,53 @@ const API_BASE = 'http://localhost:8080';
 
   // ---- 接口4 导出 ----
 
+  function parseFileName(disposition) {
+    var fallback = 'algo-export.txt';
+    if (!disposition) return fallback;
+
+    // 优先 RFC 5987: filename*=UTF-8''encoded
+    var star = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+    if (star && star[1]) {
+      try {
+        return decodeURIComponent(star[1]) || fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    // 传统: filename="xxx" 或 filename=xxx
+    var m = disposition.match(/filename="?([^";]+)"?/i);
+    if (m && m[1]) {
+      try {
+        return decodeURIComponent(m[1]) || fallback;
+      } catch (e) {
+        return m[1] || fallback;
+      }
+    }
+    return fallback;
+  }
+
   function exportAll() {
-    fetch(API_BASE + '/api/export?tab=all', { method: 'GET' })
+    var body = {
+      tab: 'all',
+      hello: lastResults.hello || null,
+      hash: lastResults.hash || null,
+      bubble: lastResults.bubble || null
+    };
+
+    fetch(API_BASE + '/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
       .then(function (res) {
         if (!res.ok) {
-          return res.text().then(function (body) {
-            throw new Error('HTTP ' + res.status + (body ? (' - ' + body) : ''));
+          return res.text().then(function (text) {
+            throw new Error('HTTP ' + res.status + (text ? (' - ' + text) : ''));
           });
         }
         var disposition = res.headers.get('content-disposition') || '';
-        var fileName = 'algo-export.txt';
-        var m = disposition.match(/filename="?([^"]+)"?/i);
-        if (m && m[1]) fileName = decodeURIComponent(m[1]);
+        var fileName = parseFileName(disposition);
         return res.blob().then(function (blob) {
           triggerDownload(blob, fileName);
         });
@@ -254,6 +292,13 @@ const API_BASE = 'http://localhost:8080';
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 0);
   }
+
+  // ---- 模块级状态：保存各 Tab 最近一次执行结果，供导出使用 ----
+  var lastResults = {
+    hello: null,   // {result, timestamp} 或 null
+    hash: null,    // {input, algorithm, hash, length} 或 null
+    bubble: null   // {input, sorted, steps, swapCount} 或 null
+  };
 
   // ---- 绑定 ----
 
