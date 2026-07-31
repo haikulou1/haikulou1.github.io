@@ -18,6 +18,9 @@ public class HashController {
 
     private static final String DEFAULT_ALGORITHM = "sha-256";
 
+    /** Maximum allowed input length in characters to mitigate DoS via oversized payloads. */
+    private static final int MAX_INPUT_LENGTH = 1_048_576;
+
     private final HashService hashService;
 
     public HashController(HashService hashService) {
@@ -32,6 +35,11 @@ public class HashController {
         if (input == null || input.isBlank()) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "input parameter is required"));
+        }
+
+        if (input.length() > MAX_INPUT_LENGTH) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "input exceeds maximum length of " + MAX_INPUT_LENGTH + " characters"));
         }
 
         String algo = (algorithm == null || algorithm.isBlank()) ? DEFAULT_ALGORITHM : algorithm.toLowerCase();

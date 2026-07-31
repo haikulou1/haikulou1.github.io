@@ -54,4 +54,15 @@ class HelloControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("unsupported algorithm: rot13"));
     }
+
+    @Test
+    void hash_oversizedInput_returns400() throws Exception {
+        String oversizedInput = "a".repeat(1_048_577);
+        mockMvc.perform(get("/api/hash")
+                        .param("algorithm", "sha-256")
+                        .param("input", oversizedInput))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value(
+                        "input exceeds maximum length of 1048576 characters"));
+    }
 }
