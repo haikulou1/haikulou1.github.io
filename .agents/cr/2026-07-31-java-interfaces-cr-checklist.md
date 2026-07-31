@@ -14,10 +14,10 @@
 | # | 文件（仓库相对路径） | 归属原因 | Step2 | Step3 | G1-G17 | S1-S10 | 总状态 |
 |---|----------------------|----------|-------|-------|--------|--------|--------|
 | 1 | `java-interfaces/.../DemoApplication.java` | 启动类 | ✅ | ✅ | N/A | N/A | ✅ |
-| 2 | `java-interfaces/.../GlobalExceptionHandler.java` | 异常处理 | N/A | ⚠️A7 | ⚠️G4/G16 | N/A | ⚠️ |
-| 3 | `java-interfaces/.../controller/HelloWorldController.java` | REQ-1 | ✅ | ⚠️A7 | N/A | ⚠️S6 | ⚠️ |
-| 4 | `java-interfaces/.../controller/BubbleSortController.java` | REQ-2/3 | ✅ | ⚠️A7 | ✅G14 | ⚠️S6 | ⚠️ |
-| 5 | `java-interfaces/.../controller/QuickSortController.java` | REQ-4 | ⚠️ | ⚠️A7 | ⚠️G14 | ⚠️S6 | ⚠️ |
+| 2 | `java-interfaces/.../GlobalExceptionHandler.java` | 异常处理 | N/A | ✅ | ✅G4/G16 | N/A | ✅ |
+| 3 | `java-interfaces/.../controller/HelloWorldController.java` | REQ-1 | ✅ | ✅ | N/A | ✅S6 | ✅ |
+| 4 | `java-interfaces/.../controller/BubbleSortController.java` | REQ-2/3 | ✅ | ✅ | ✅G14 | ✅S6 | ✅ |
+| 5 | `java-interfaces/.../controller/QuickSortController.java` | REQ-4 | ✅ | ✅ | ✅G14 | ✅S6 | ✅ |
 | 6 | `java-interfaces/.../dto/SortRequest.java` | DTO | N/A | ✅ | N/A | N/A | ✅ |
 | 7 | `java-interfaces/.../dto/SortResponse.java` | DTO | N/A | ✅ | N/A | N/A | ✅ |
 
@@ -29,10 +29,10 @@
 
 | REQ | Scenario | Spec证据 | 关联文件 | 状态 | 代码证据 |
 |-----|----------|----------|----------|------|----------|
-| REQ-1 | GET /api/helloworld→{"message":"Hello World"} | §5.1 已定案；F2 | `HelloWorldController.java` | ✅ | `:18-21` |
-| REQ-2 | POST /api/bubble-sort {"arr"}→{"sorted"} | §5.1 已定案；F3-F5 | `BubbleSortController.java` | ✅ | `:26-34` |
-| REQ-3 | 冒泡算法/边界（空/单元素/null→400） | §5.3 算法约束 | `BubbleSortController.java` | ✅ | `:28-56` + `GlobalExceptionHandler:17-20` |
-| REQ-4 | 第三个接口（快排） | §3.2 U1 候选未定案；§5.1 标 TBD | `QuickSortController.java` | ⚠️ | `:28-36`；spec→code 可追溯性缺口(P2) |
+| REQ-1 | GET /api/helloworld→{"message":"Hello World"} | §5.1 已定案；F2 | `HelloWorldController.java` | ✅ | `:23-26` |
+| REQ-2 | POST /api/bubble-sort {"arr"}→{"sorted"} | §5.1 已定案；F3-F5 | `BubbleSortController.java` | ✅ | `:36-47` |
+| REQ-3 | 冒泡算法/边界（空/单元素/null→400/超长→400） | §5.3 算法约束 | `BubbleSortController.java` | ✅ | `:37-47` + `GlobalExceptionHandler:33-36` |
+| REQ-4 | 第三个接口（快排） | §3.2 U1 已定案（类 Javadoc 标注）；§5.1 | `QuickSortController.java` | ✅ | `:38-49`；spec→code 可追溯性已补齐 |
 
 ---
 
@@ -44,9 +44,9 @@
 | A2 | 源文件结构/import 顺序 | ✅ | 项目包→Spring→JDK，分组合理 |
 | A3 | 代码样式 | ✅ | 4 空格缩进一致 |
 | A4 | 命名规范 | ✅ | PascalCase 类名，camelCase 方法名 |
-| A5 | 编码实践 | ✅ | 标准 getter/setter，无魔法值 |
+| A5 | 编码实践 | ✅ | 标准 getter/setter；魔法值已提取为常量 `MAX_ARRAY_LENGTH` |
 | A6 | 特定元素样式 | N/A | 无常量/枚举等特定元素 |
-| A7 | Javadoc 规范 | ⚠️ | `HelloWorldController:19`、`BubbleSortController:27`、`QuickSortController:29` 公开方法缺方法级 Javadoc(P2) |
+| A7 | Javadoc 规范 | ✅ | `HelloWorldController:18-22`、`BubbleSortController:30-35`、`QuickSortController:32-37` 公开方法已补方法级 Javadoc（`@param`/`@return`）；私有方法亦有 Javadoc |
 
 ---
 
@@ -71,6 +71,7 @@
 | G2.1-G2.3 | N/A | 无 closeable 资源/流/连接 |
 | G3.1-G3.2 | N/A | 无数据库事务 |
 | G4.1 | ⚠️ | `GlobalExceptionHandler:17` 仅处理 IllegalArgumentException，HttpMessageNotReadableException 未捕获返回 500(P2) |
+| G4.1 | ✅ | `GlobalExceptionHandler:45-49` 增补 `@ExceptionHandler(HttpMessageNotReadableException.class)`→400；原 P2-G4 已修复 |
 | G4.2-G4.4 | N/A | 无重试/超时/限流场景 |
 | G5.1 | N/A | 无幂等要求 |
 | G6.1-G6.2 | N/A | 无资源清理 |
@@ -81,11 +82,11 @@
 | G11.1-G11.4 | N/A | 无灰度发布 |
 | G12.1-G12.2 | N/A | 无监控埋点（demo 范围） |
 | G13.1 | N/A | 无降级 |
-| G14.1 | ✅ | 冒泡边界：空/单元素/null 正确处理 |
-| G14.2 | ⚠️ | `QuickSortController:50-51` Lomuto 固定末位基准，已排序输入致 O(n) 栈深(P2) |
+| G14.1 | ✅ | 冒泡边界：空/单元素/null/超长 正确处理 |
+| G14.2 | ✅ | `QuickSortController:75-88,98-112` 改用三数取中 Lomuto 分区，规避最坏递归深度；原 P2-G14 已修复 |
 | G14.3-G14.4 | ✅ | 数组下标循环边界正确 |
 | G15.1-G15.3 | N/A | 无应急/回滚场景 |
-| G16.1 | ⚠️ | `GlobalExceptionHandler:18` 异常未记录日志，无可观测性(P2) |
+| G16.1 | ✅ | `GlobalExceptionHandler:25,35,47` 引入 SLF4J Logger，异常记录 warn 级日志；原 P2-G16 已修复 |
 | G16.2-G16.3 | N/A | 无业务日志场景 |
 | G17.1-G17.3 | N/A | 无应急预案 |
 | G18.1-G18.3 | N/A | 安全补强归入 S 节，此处无额外项 |
@@ -99,7 +100,7 @@
 | S3.1-S3.3 | N/A | 无命令执行 |
 | S4.1-S4.2 | N/A | 无认证授权 |
 | S5.1-S5.2 | N/A | 无密钥/凭证 |
-| S6.1 | ⚠️ | `BubbleSortController:31`、`QuickSortController:33` arr 无长度上限，超大数组 OOM/DoS(P2) |
+| S6.1 | ✅ | `BubbleSortController:41-42`、`QuickSortController:43-44` 增 `MAX_ARRAY_LENGTH=10000` 上限校验→400；原 P2-S6 已修复 |
 | S6.2-S6.3 | ✅ | null 已校验→400 |
 | S7.1-S7.3 | N/A | 无文件上传 |
 | S8.1-S8.4 | N/A | 无 SSRF/外呼 |
@@ -125,3 +126,12 @@
 - [x] Step 4 全部 G/S 与 B001-B081/M001-M027/I001-I010 ID 均非 `⬜`（允许 N/A，已写原因）
 - [x] Step 5 全部 U* ID 均非 `⬜`（`N/A(未启用自定义规则)`）
 - [x] 所有 `❌/⚠️` 已写入 report，且包含 `ID + path:line`
+
+---
+
+## 修订记录
+
+| 版本 | 日期 | Commit | 说明 |
+|------|------|--------|------|
+| v1 | 2026-07-31 | `5f5b0ec` | 首次 CR，5 项 P2（A7/G4/G14/G16/S6） |
+| v2 | 2026-07-31 | `c97007c` | CR 修复后复查：5 项 P2 全部修复，无新增问题，全部 ✅ |
