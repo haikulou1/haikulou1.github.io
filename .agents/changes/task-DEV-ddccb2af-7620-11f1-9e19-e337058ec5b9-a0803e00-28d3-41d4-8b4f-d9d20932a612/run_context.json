@@ -1,0 +1,47 @@
+{
+  "task_id": "task-DEV-ddccb2af-7620-11f1-9e19-e337058ec5b9-a0803e00-28d3-41d4-8b4f-d9d20932a612",
+  "stage": "loop-1",
+  "node": "需求澄清",
+  "skill": "brainstorming",
+  "created_at": "2026-08-06",
+  "blocker_count": 4,
+  "blockers": [
+    {
+      "id": "B-1",
+      "type": "conflict",
+      "title": "账号禁用场景 vs 防账号枚举（真实矛盾）",
+      "detail": "需求第4章将账号禁用列为异常场景，但关键设计点要求账号不存在/密码错误统一返回以防枚举。禁用账号登录响应口径未定：返回账号已禁用则泄露账号存在性；统一返回则无法告知禁用状态。",
+      "status": "needs_upstream_input"
+    },
+    {
+      "id": "B-2",
+      "type": "missing",
+      "title": "登录态维持机制（Session vs JWT）与多端兼容范围未定",
+      "detail": "需求仅建议 Cookie 属性，未定登录态机制类型（Session/JWT），影响退出/记住我/多实例会话/跨端。兼容性非功能需求笼统，未列具体端，小程序不支持 Cookie 直接决定方案。",
+      "status": "needs_upstream_input"
+    },
+    {
+      "id": "B-3",
+      "type": "missing",
+      "title": "暴力破解锁定维度/阈值 与 防枚举交互未定",
+      "detail": "锁定维度（账号/IP/双维度）、失败阈值、锁定时长、解锁方式、验证码类型与触发条件均未定。账号级锁定与防枚举存在张力（被锁=账号存在）。",
+      "status": "needs_upstream_input"
+    },
+    {
+      "id": "B-4",
+      "type": "dependency",
+      "title": "现有用户体系/数据结构依赖未明确",
+      "detail": "是否已存在用户表与密码字段、密码存储现状（明文/旧哈希）是否需迁移、用户唯一标识（用户名/邮箱/手机号）均未明确。loop-1 无输入无法从代码推断。",
+      "status": "needs_upstream_input"
+    }
+  ],
+  "self_decisions": [
+    "密码哈希算法：Argon2id（bcrypt 兼容回退）",
+    "记住我时长：短 2h / 长 30d",
+    "密码强度校验：≥8 位含字母+数字",
+    "Cookie 属性：HttpOnly + Secure + SameSite=Lax",
+    "HTTPS：假设支持",
+    "登录入口：独立登录页",
+    "技术栈：通用 Web 栈（待 B-2/B-4 细化）"
+  ]
+}
