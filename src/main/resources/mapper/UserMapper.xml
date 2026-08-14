@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.antdigital.auth.dao.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.antdigital.auth.model.entity.UserDO">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="passwordHash" column="password_hash"/>
+        <result property="status" column="status"/>
+        <result property="failCount" column="fail_count"/>
+        <result property="lockUntil" column="lock_until"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+    </resultMap>
+
+    <select id="getByUserName" resultMap="userResultMap">
+        SELECT id, user_name, password_hash, status, fail_count, lock_until,
+               gmt_create, gmt_modified
+        FROM user_account
+        WHERE user_name = #{userName}
+    </select>
+
+    <update id="updateFailStatus">
+        UPDATE user_account
+        SET fail_count = #{failCount},
+            lock_until = #{lockUntil}
+        WHERE id = #{id}
+    </update>
+
+    <update id="resetFailStatus">
+        UPDATE user_account
+        SET fail_count = 0,
+            lock_until = NULL
+        WHERE id = #{id}
+    </update>
+
+</mapper>

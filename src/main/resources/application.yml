@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: auth-login
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.antdigital.auth.model.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 登录模块业务配置
+auth:
+  login:
+    # 连续失败次数上限，达到后锁定账号
+    max-fail-count: 5
+    # 账号锁定时长（秒）
+    lock-duration-seconds: 900
+    # 同 IP 每分钟最大尝试次数
+    ip-rate-limit-per-minute: 20
+    # 是否强制 HTTPS（生产环境必须为 true）
+    cookie-secure: false
+    # 普通会话有效期（秒）
+    session-ttl-seconds: 1800
+    # 记住我会话有效期（秒）
+    remember-me-ttl-seconds: 604800
+    # 触发验证码的失败次数阈值
+    captcha-threshold: 3
+
+logging:
+  level:
+    root: INFO
+    com.antdigital.auth: DEBUG
