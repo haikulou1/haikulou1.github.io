@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Java宿舍管理系统]]></title>
+    <url>%2F2019%2F10%2F11%2FJava%E5%AE%BF%E8%88%8D%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%2F</url>
+    <content type="text"><![CDATA[基于Java Swing + MySQL的宿舍管理系统，实现学生入住、宿舍分配、报修管理等功能 系统概述 本项目是一个基于Java Swing + MySQL的宿舍管理系统，旨在为学校宿舍管理提供便捷的信息化解决方案。系统实现了学生入住管理、宿舍分配、报修管理、访客登记等核心功能，采用C/S架构，界面友好，操作简单。 功能模块 学生管理 宿舍管理 报修管理 访客登记 数据库设计 学生表 宿舍表 报修表 核心代码 JDBC连接 CRUD操作 宿舍分配逻辑 界面展示 系统主界面采用Java Swing的BorderLayout布局]]></content>
+      <categories>
+        <category>java</category>
+        <category>java项目</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>宿舍管理系统</tag>
+        <tag>Java项目</tag>
+        <tag>Swing</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[java基础之集合之concurrentHashmap]]></title>
     <url>%2F2019%2F10%2F10%2Fjava%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%9B%86%E5%90%88%E4%B9%8BconcurrentHashmap%2F</url>
     <content type="text"><![CDATA[https://blog.csdn.net/weixin_44460333/article/details/86770169 写的非常好有一个小错误：在concurrentHashmap的put方法中第三点应该是：为空则需要新建一个 HashEntry 并加入到 Segment 中，同时会先判断是否需要扩容]]></content>

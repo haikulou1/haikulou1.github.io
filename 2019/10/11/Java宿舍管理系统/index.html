@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="骸の博客" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: './public/search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="基于Java Swing + MySQL的宿舍管理系统，实现学生入住、宿舍分配、报修管理等功能">
+<meta name="keywords" content="java,宿舍管理系统,Java项目,Swing,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java宿舍管理系统">
+<meta property="og:url" content="https://haikulou1.github.io/2019/10/11/Java宿舍管理系统/index.html">
+<meta property="og:site_name" content="骸の博客">
+<meta property="og:description" content="基于Java Swing + MySQL的宿舍管理系统，实现学生入住、宿舍分配、报修管理等功能">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-11T10:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java宿舍管理系统">
+<meta name="twitter:description" content="基于Java Swing + MySQL的宿舍管理系统，实现学生入住、宿舍分配、报修管理等功能">
+  <link rel="canonical" href="https://haikulou1.github.io/2019/10/11/Java宿舍管理系统/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java宿舍管理系统 | 骸の博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">骸の博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一丢丢</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">18</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">18</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">18</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://haikulou1.github.io/2019/10/11/Java宿舍管理系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡歌的小迷弟">
+      <meta itemprop="description" content="为了梦想而努力">
+      <meta itemprop="image" content="/images/icon.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="骸の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Java宿舍管理系统
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+
+              <time title="创建时间：2019-10-11 18:00:00 / 修改时间：18:00:00" itemprop="dateCreated datePublished" datetime="2019-10-11T18:00:00+08:00">2019-10-11</time>
+            </span>
+          
+
+            
+
+            
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/java项目/" itemprop="url" rel="index"><span itemprop="name">java项目</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/11/Java宿舍管理系统/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/11/Java宿舍管理系统/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+         
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <!-- <span title="本文字数">274</span> -->
+			  <span title="本文字数">
+                   字
+                </span>
+              
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="系统概述"><a href="#系统概述" class="headerlink" title="系统概述"></a>系统概述</h2><p>本项目是一个基于Java Swing + MySQL的宿舍管理系统，旨在为学校宿舍管理提供便捷的信息化解决方案。系统实现了学生入住管理、宿舍分配、报修管理、访客登记等核心功能，采用C/S架构，界面友好，操作简单。</p>
+<p>开发环境：<br>JDK 1.8<br>MySQL 5.7<br>IDE：Eclipse<br>界面框架：Java Swing<br>数据库驱动：JDBC</p>
+
+<h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="1-学生管理"><a href="#1-学生管理" class="headerlink" title="1. 学生管理"></a>1. 学生管理</h3><p>学生信息的增删改查，包括学号、姓名、性别、班级、联系方式、宿舍号等基本信息的管理。支持按学号、姓名等条件模糊查询。</p>
+<h3 id="2-宿舍管理"><a href="#2-宿舍管理" class="headerlink" title="2. 宿舍管理"></a>2. 宿舍管理</h3><p>宿舍信息的维护，包括宿舍楼号、房间号、床位数、已入住人数、宿舍类型等。支持宿舍分配、调换、退宿等操作，实时更新宿舍空余床位信息。</p>
+<h3 id="3-报修管理"><a href="#3-报修管理" class="headerlink" title="3. 报修管理"></a>3. 报修管理</h3><p>学生在线提交报修申请，填写报修类型（水电、门窗、空调等）、报修描述。管理员可查看报修列表，指派维修人员，更新维修状态（待处理、维修中、已完成）。</p>
+<h3 id="4-访客登记"><a href="#4-访客登记" class="headerlink" title="4. 访客登记"></a>4. 访客登记</h3><p>来访人员信息登记，包括访客姓名、联系方式、被访人、来访事由、来访时间、离开时间等，保障宿舍安全。</p>
+
+<h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><h3 id="学生表（t-student）"><a href="#学生表（t-student）" class="headerlink" title="学生表（t_student）"></a>学生表（t_student）</h3>
+<pre><code>CREATE TABLE t_student (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  student_no VARCHAR(20) NOT NULL UNIQUE,
+  name VARCHAR(50) NOT NULL,
+  gender VARCHAR(10),
+  class_name VARCHAR(50),
+  phone VARCHAR(20),
+  dorm_id INT,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (dorm_id) REFERENCES t_dorm(id)
+);
+</code></pre>
+<h3 id="宿舍表（t-dorm）"><a href="#宿舍表（t-dorm）" class="headerlink" title="宿舍表（t_dorm）"></a>宿舍表（t_dorm）</h3>
+<pre><code>CREATE TABLE t_dorm (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  building VARCHAR(50) NOT NULL,
+  room_no VARCHAR(20) NOT NULL,
+  bed_count INT DEFAULT 4,
+  used_bed INT DEFAULT 0,
+  dorm_type VARCHAR(20),
+  remark VARCHAR(200)
+);
+</code></pre>
+<h3 id="报修表（t-repair）"><a href="#报修表（t-repair）" class="headerlink" title="报修表（t_repair）"></a>报修表（t_repair）</h3>
+<pre><code>CREATE TABLE t_repair (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  student_id INT,
+  repair_type VARCHAR(50),
+  description TEXT,
+  status VARCHAR(20) DEFAULT '待处理',
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME,
+  FOREIGN KEY (student_id) REFERENCES t_student(id)
+);
+</code></pre>
+
+<h2 id="核心代码展示"><a href="#核心代码展示" class="headerlink" title="核心代码展示"></a>核心代码展示</h2><h3 id="JDBC连接工具类"><a href="#JDBC连接工具类" class="headerlink" title="JDBC连接工具类"></a>JDBC连接工具类</h3>
+<pre><code>public class DBUtil {
+    private static final String URL = "jdbc:mysql://localhost:3306/dormitory?useSSL=false&amp;characterEncoding=utf-8";
+    private static final String USER = "root";
+    private static final String PASSWORD = "root";
+
+    static {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void close(Connection conn, PreparedStatement ps, ResultSet rs) {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="学生信息CRUD操作"><a href="#学生信息CRUD操作" class="headerlink" title="学生信息CRUD操作"></a>学生信息CRUD操作</h3>
+<pre><code>public class StudentDao {
+
+    // 查询所有学生
+    public List&lt;Student&gt; findAll() {
+        List&lt;Student&gt; list = new ArrayList&lt;&gt;();
+        String sql = "SELECT * FROM t_student";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Student stu = new Student();
+                stu.setId(rs.getInt("id"));
+                stu.setStudentNo(rs.getString("student_no"));
+                stu.setName(rs.getString("name"));
+                stu.setGender(rs.getString("gender"));
+                stu.setClassName(rs.getString("class_name"));
+                stu.setPhone(rs.getString("phone"));
+                stu.setDormId(rs.getInt("dorm_id"));
+                list.add(stu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, rs);
+        }
+        return list;
+    }
+
+    // 添加学生
+    public int add(Student student) {
+        String sql = "INSERT INTO t_student(student_no, name, gender, class_name, phone, dorm_id) VALUES(?,?,?,?,?,?)";
+        // 省略具体实现...
+    }
+
+    // 更新学生信息
+    public int update(Student student) {
+        String sql = "UPDATE t_student SET name=?, gender=?, class_name=?, phone=?, dorm_id=? WHERE id=?";
+        // 省略具体实现...
+    }
+
+    // 删除学生
+    public int delete(int id) {
+        String sql = "DELETE FROM t_student WHERE id=?";
+        // 省略具体实现...
+    }
+}
+</code></pre>
+<h3 id="宿舍分配逻辑"><a href="#宿舍分配逻辑" class="headerlink" title="宿舍分配逻辑"></a>宿舍分配逻辑</h3>
+<pre><code>public class DormService {
+
+    // 分配宿舍：查询有空床位的宿舍并分配
+    public boolean assignDorm(int studentId, int dormId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtil.getConnection();
+            // 先查询宿舍是否还有空床位
+            String checkSql = "SELECT bed_count, used_bed FROM t_dorm WHERE id=?";
+            ps = conn.prepareStatement(checkSql);
+            ps.setInt(1, dormId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int bedCount = rs.getInt("bed_count");
+                int usedBed = rs.getInt("used_bed");
+                if (usedBed &lt; bedCount) {
+                    // 有空床位，更新学生宿舍信息
+                    String updateStudent = "UPDATE t_student SET dorm_id=? WHERE id=?";
+                    ps = conn.prepareStatement(updateStudent);
+                    ps.setInt(1, dormId);
+                    ps.setInt(2, studentId);
+                    ps.executeUpdate();
+                    // 更新宿舍已用床位数
+                    String updateDorm = "UPDATE t_dorm SET used_bed=used_bed+1 WHERE id=?";
+                    ps = conn.prepareStatement(updateDorm);
+                    ps.setInt(1, dormId);
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn, ps, rs);
+        }
+        return false;
+    }
+}
+</code></pre>
+<h3 id="报修管理界面代码"><a href="#报修管理界面代码" class="headerlink" title="报修管理界面代码"></a>报修管理界面代码</h3>
+<pre><code>public class RepairFrame extends JFrame {
+    private JTable repairTable;
+    private JButton btnAdd, btnUpdate, btnDelete;
+    private RepairDao repairDao = new RepairDao();
+
+    public RepairFrame() {
+        setTitle("报修管理");
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        initUI();
+        loadData();
+    }
+
+    private void initUI() {
+        // 创建表格
+        String[] columns = {"编号", "学生", "报修类型", "描述", "状态", "提交时间"};
+        repairTable = new JTable(new DefaultTableModel(null, columns));
+        JScrollPane scrollPane = new JScrollPane(repairTable);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // 按钮面板
+        JPanel btnPanel = new JPanel();
+        btnAdd = new JButton("添加报修");
+        btnUpdate = new JButton("更新状态");
+        btnDelete = new JButton("删除");
+        btnPanel.add(btnAdd);
+        btnPanel.add(btnUpdate);
+        btnPanel.add(btnDelete);
+        add(btnPanel, BorderLayout.SOUTH);
+
+        // 添加事件监听
+        btnAdd.addActionListener(e -> addRepair());
+        btnUpdate.addActionListener(e -> updateStatus());
+        btnDelete.addActionListener(e -> deleteRepair());
+    }
+
+    private void loadData() {
+        DefaultTableModel model = (DefaultTableModel) repairTable.getModel();
+        model.setRowCount(0);
+        List&lt;Repair&gt; list = repairDao.findAll();
+        for (Repair r : list) {
+            model.addRow(new Object[]{
+                r.getId(), r.getStudentName(), r.getRepairType(),
+                r.getDescription(), r.getStatus(), r.getCreateTime()
+            });
+        }
+    }
+
+    private void addRepair() {
+        // 弹出添加对话框
+    }
+
+    private void updateStatus() {
+        // 更新维修状态
+    }
+
+    private void deleteRepair() {
+        // 删除报修记录
+    }
+}
+</code></pre>
+
+<h2 id="界面展示"><a href="#界面展示" class="headerlink" title="界面展示"></a>界面展示</h2><p>系统主界面采用Java Swing的BorderLayout布局，顶部为菜单栏和工具栏，左侧为功能导航树，右侧为具体操作面板。整体风格简洁清晰，符合Windows桌面应用的操作习惯。</p>
+<p>主要界面包括：</p>
+<ul>
+<li><strong>登录界面</strong>：管理员身份验证登录</li>
+<li><strong>主界面</strong>：功能导航 + 信息展示</li>
+<li><strong>学生管理界面</strong>：学生信息的表格展示与增删改查</li>
+<li><strong>宿舍管理界面</strong>：宿舍信息管理与分配操作</li>
+<li><strong>报修管理界面</strong>：报修申请与状态跟踪</li>
+<li><strong>访客登记界面</strong>：访客信息录入与查询</li>
+</ul>
+<p>系统采用MVC架构，View层使用Swing组件，Model层为JavaBean实体类，Controller层通过DAO模式操作数据库，实现了界面与业务逻辑的分离，便于后期维护和扩展。</p>
+<p>通过本项目，可以深入理解Java Swing桌面应用开发、JDBC数据库连接与操作、MySQL数据库设计等核心技术，是一个非常适合Java初学者的实战项目。</p>
+
+      
+    </div>
+
+    
+    
+    
+      
+
+      
+
+      
+        
+      
+      
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+     打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+      
+
+      
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  
+</div>
+
+      <footer class="post-footer">
+        
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/java/" rel="tag"># java</a>
+            
+              <a href="/tags/宿舍管理系统/" rel="tag"># 宿舍管理系统</a>
+            
+              <a href="/tags/Java项目/" rel="tag"># Java项目</a>
+            
+              <a href="/tags/Swing/" rel="tag"># Swing</a>
+            
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            
+          </div>
+        
+
+
+
+        
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/10/java基础之集合之concurrentHashmap/" rel="next" title="java基础之集合之concurrentHashmap">
+                  <i class="fa fa-chevron-left"></i> java基础之集合之concurrentHashmap
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/icon.JPG"
+      alt="胡歌的小迷弟">
+  <p class="site-author-name" itemprop="name">胡歌的小迷弟</p>
+  <div class="site-description" itemprop="description">为了梦想而努力</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/haikulou1" title="GitHub &rarr; https://github.com/haikulou1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://me.csdn.net/qq_26737667" title="CSDN &rarr; https://me.csdn.net/qq_26737667" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">骸</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">28k</span>
+</div>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '4sEVi9AyKjtIGLSLAU24CsfE-gzGzoHsz',
+    appKey: '73JqOIAswUTRm0qRYu9Eg1HD',
+    placeholder: '来呀，快活呀 ！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
